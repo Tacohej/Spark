@@ -24,7 +24,8 @@ namespace Spark
             return false;
         }
 
-        public int GetStatTotal<T> () where T : Stat {
+        public int GetStatTotal<T> () where T : Stat
+        {
             var value = 0;
             foreach(Item item in items)
             {
