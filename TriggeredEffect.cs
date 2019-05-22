@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Spark
 {
-    [CreateAssetMenu(menuName="ItemEffectSystem/TriggeredEffect")]
+    [CreateAssetMenu(menuName="Spark/TriggeredEffect")]
     public class TriggeredEffect : ScriptableObject
     {
         public Trigger trigger;

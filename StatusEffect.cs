@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Spark
 {
-    [CreateAssetMenu(menuName="ItemEffectSystem/StatusEffect")]
+    [CreateAssetMenu(menuName="Spark/StatusEffect")]
     public class StatusEffect : ScriptableObject
     {
         [SerializeField]
@@ -20,12 +20,12 @@ namespace Spark
         [System.NonSerialized]
         public int duration;
 
-        public int GetTotalOfStat<T> () where T : Stat
+        public int GetTotalOfStat<T> () where T : StatType
         {
             var total = 0;
             foreach(Stat stat in stats)
             {
-                if (stat is T)
+                if (stat.type is T)
                 {
                     total += stat.value * stackAmount;
                 }

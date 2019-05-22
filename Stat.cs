@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class Stat : ScriptableObject
+    [System.Serializable]
+    public class Stat
     {
+        public StatType type;
         public int value;
     }
 }

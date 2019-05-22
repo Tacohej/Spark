@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Spark
 {
-    [CreateAssetMenu(menuName="ItemEffectSystem/TurnBasedManager")]
+    [CreateAssetMenu(menuName="Spark/TurnBasedManager")]
     public class TurnBasedManager : EffectManager
     {
         public void Tick () {

@@ -4,16 +4,9 @@ using UnityEngine;
 
 namespace Spark
 {
-    [CreateAssetMenu(menuName="ItemEffectSystem/Item")]
-    public class Item : ScriptableObject
+    [CreateAssetMenu(menuName="Spark/Item")]
+    public class SparkItem : ScriptableObject
     {
-        public string itemName;
-        public string description;
-
-        // move to own class
-        public int cost;
-        public Sprite thumbnail;
-
         [SerializeField]
         private List<TriggeredEffect> effects = new List<TriggeredEffect>();
         [SerializeField]
@@ -24,12 +17,12 @@ namespace Spark
             return effects.FindAll(effect => effect.trigger is T);
         }
 
-        public int GetTotalOfStat<T> () where T : Stat
+        public int GetTotalOfStat<T> () where T : StatType
         {
             var total = 0;
             foreach(Stat stat in stats)
             {
-                if (stat is T)
+                if (stat.type is T)
                 {
                     total += stat.value;
                 }
