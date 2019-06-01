@@ -23,8 +23,9 @@ namespace Spark
         public int GetTotalOfStat<T> () where T : StatType
         {
             var total = 0;
-            foreach(Stat stat in stats)
+            for (int i = 0; i < stats.Count; i++)
             {
+                Stat stat = stats[i];
                 if (stat.type is T)
                 {
                     total += stat.value * stackAmount;

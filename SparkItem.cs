@@ -8,9 +8,9 @@ namespace Spark
     public class SparkItem : ScriptableObject
     {
         [SerializeField]
-        private List<TriggeredEffect> effects = new List<TriggeredEffect>();
-        [SerializeField]
         private List<Stat> stats = new List<Stat>();
+        [SerializeField]
+        private List<TriggeredEffect> effects = new List<TriggeredEffect>();
 
         public List<TriggeredEffect> GetEffectsWithTrigger<T> () where T : Trigger
         {
@@ -20,8 +20,9 @@ namespace Spark
         public int GetTotalOfStat<T> () where T : StatType
         {
             var total = 0;
-            foreach(Stat stat in stats)
+            for (int i = 0; i < stats.Count; i++)
             {
+                Stat stat = stats[i];
                 if (stat.type is T)
                 {
                     total += stat.value;
@@ -32,9 +33,10 @@ namespace Spark
 
         public bool HasEffectWithTrigger<T>()
         {
-            foreach(TriggeredEffect effect in effects)
+
+            for (int i = 0; i < effects.Count; i++)
             {
-                if (effect.trigger is T)
+                if (effects[i].trigger is T)
                 {
                     return true;
                 }

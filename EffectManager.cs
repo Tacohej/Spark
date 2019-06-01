@@ -12,11 +12,11 @@ namespace Spark
         [System.NonSerialized]
         protected List<StatusEffect> statusEffects = new List<StatusEffect>();
 
-        protected bool ContainsStatusEffect (string name)
+        protected bool ContainsStatusEffect (string name) // maybe use something else than name
         {
-            foreach(StatusEffect statusEffect in statusEffects)
+            for (int i = 0; i < statusEffects.Count; i++)
             {
-                if (statusEffect.name == name)
+                if (statusEffects[i].name == name)
                 {
                     return true;
                 }
@@ -27,13 +27,14 @@ namespace Spark
         public int GetStatTotal<T> () where T : StatType
         {
             var value = 0;
-            foreach(Item item in items)
+            for (int i = 0; i < items.Count; i++)
             {
-                value += item.GetTotalOfStat<T>();
+                value += items[i].GetTotalOfStat<T>();
             }
-            foreach(StatusEffect statusEffect in statusEffects)
+
+            for (int i = 0; i < statusEffects.Count; i++)
             {
-                value += statusEffect.GetTotalOfStat<T>();
+                value += statusEffects[i].GetTotalOfStat<T>();
             }
             return value;
         }
@@ -73,11 +74,14 @@ namespace Spark
 
         public void TriggerEffects<T> () where T : Trigger
         {
-            foreach(Item item in GetItemsWithTrigger<T>())
+            List<Item> items = GetItemsWithTrigger<T>();
+            for (int i = 0; i < items.Count; i++)
             {
-                foreach(TriggeredEffect effect in item.GetEffectsWithTrigger<T>())
+                List<TriggeredEffect> effects = items[i].GetEffectsWithTrigger<T>();
+                for (int j = 0; j < effects.Count; j++)
                 {
-                    effect.reaction.Resolve(effect);
+                    TriggeredEffect effect = effects[j];
+                    effects[j].reaction.Resolve(effects[j]);
                 }
             }
         }
