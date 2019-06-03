@@ -4,5 +4,5 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class CombatState : ScriptableObject {} // todo: remove?
+    public abstract class StateManager : ScriptableObject {} // todo: remove?
 }

@@ -6,6 +6,6 @@ namespace Spark
 {
     public abstract class Reaction : ScriptableObject
     {
-        public abstract void Resolve(TriggeredEffect effect);
+        public abstract void Resolve(StateManager stateManager, TriggeredEffect effect);
     }
 }

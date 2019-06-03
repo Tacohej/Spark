@@ -6,6 +6,8 @@ namespace Spark
 {
     public abstract class EffectManager : ScriptableObject
     {
+        public StateManager stateManager;
+
         [SerializeField]
         protected List <Item> items = new List<Item>();
 
@@ -22,6 +24,11 @@ namespace Spark
                 }
             }
             return false;
+        }
+
+        public void SetItems (List<Item> items)
+        {
+            this.items = items;
         }
 
         public int GetStatTotal<T> () where T : StatType
@@ -81,7 +88,10 @@ namespace Spark
                 for (int j = 0; j < effects.Count; j++)
                 {
                     TriggeredEffect effect = effects[j];
-                    effects[j].reaction.Resolve(effects[j]);
+                    if (effect.ConditionsAreMet(stateManager))
+                    {
+                        effects[j].reaction.Resolve(stateManager, effects[j]);
+                    }
                 }
             }
         }
