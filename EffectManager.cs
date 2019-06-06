@@ -6,8 +6,6 @@ namespace Spark
 {
     public abstract class EffectManager : ScriptableObject
     {
-        public StateManager stateManager;
-
         [SerializeField]
         protected List <Item> items = new List<Item>();
 
@@ -79,18 +77,21 @@ namespace Spark
             return items.FindAll(item => item.HasEffectWithTrigger<T>());
         }
 
-        public void TriggerEffects<T> () where T : Trigger
+        public void TriggerEffects<T, U> (U stateManager) where T : Trigger where U : StateManager
         {
             List<Item> items = GetItemsWithTrigger<T>();
             for (int i = 0; i < items.Count; i++)
             {
-                List<TriggeredEffect> effects = items[i].GetEffectsWithTrigger<T>();
+                var item = items[i];
+                List<TriggeredEffect> effects = item.GetEffectsWithTrigger<T>();
+                stateManager.item = item;
                 for (int j = 0; j < effects.Count; j++)
                 {
                     TriggeredEffect effect = effects[j];
+                    stateManager.effect = effect;
                     if (effect.ConditionsAreMet(stateManager))
                     {
-                        effects[j].reaction.Resolve(stateManager, effects[j]);
+                        effects[j].reaction.Resolve(stateManager);
                     }
                 }
             }

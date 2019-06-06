@@ -11,7 +11,7 @@ namespace Spark
         public Trigger trigger;
         public Reaction reaction;
 
-        public bool ConditionsAreMet (StateManager stateManager)
+        public bool ConditionsAreMet<T> (T stateManager)
         {
             for (int i = 0; i < conditions.Count; i++)
             {
