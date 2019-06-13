@@ -7,7 +7,8 @@ namespace Spark
     [System.Serializable]
     public class Stat
     {
+        public int flatValue;
+        public int percentValue;
         public StatType type;
-        public int value;
     }
 }

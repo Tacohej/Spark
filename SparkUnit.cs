@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class EffectManager : ScriptableObject
+    public abstract class SparkUnit : ScriptableObject
     {
         [SerializeField]
         protected List <Item> items = new List<Item>();
@@ -12,41 +12,34 @@ namespace Spark
         [System.NonSerialized]
         protected List<StatusEffect> statusEffects = new List<StatusEffect>();
 
-        protected bool ContainsStatusEffect (string name) // maybe use something else than name
-        {
-            for (int i = 0; i < statusEffects.Count; i++)
-            {
-                if (statusEffects[i].name == name)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public void SetItems (List<Item> items)
         {
             this.items = items;
         }
 
-        public int GetStatTotal<T> () where T : StatType
+        public int GetStatTotal<T> (int baseValue) where T : StatType
         {
-            var value = 0;
+            var flatValue = 0;
+            var percentValue = 0;
             for (int i = 0; i < items.Count; i++)
             {
-                value += items[i].GetTotalOfStat<T>();
+                flatValue += items[i].GetTotalStatFlat<T>();
+                percentValue += items[i].GetTotalStatPercent<T>();
             }
 
             for (int i = 0; i < statusEffects.Count; i++)
             {
-                value += statusEffects[i].GetTotalOfStat<T>();
+                flatValue += statusEffects[i].GetTotalStatFlat<T>();
+                percentValue += statusEffects[i].GetTotalStatPercent<T>();
             }
-            return value;
+
+            // TODO: Precision
+            return Mathf.RoundToInt((baseValue + flatValue) * (1 + percentValue * 0.01f));
         }
 
         public void AddStatusEffect (StatusEffect statusEffect)
         {
-            if (ContainsStatusEffect(statusEffect.name))
+            if (statusEffects.Contains(statusEffect))
             {
                 if (statusEffect.maxStackAmount > 1 && statusEffect.stackAmount < statusEffect.maxStackAmount)
                 {
@@ -77,21 +70,19 @@ namespace Spark
             return items.FindAll(item => item.HasEffectWithTrigger<T>());
         }
 
-        public void TriggerEffects<T, U> (U stateManager) where T : Trigger where U : StateManager
+        public void TriggerEffects<T> () where T : Trigger
         {
             List<Item> items = GetItemsWithTrigger<T>();
             for (int i = 0; i < items.Count; i++)
             {
                 var item = items[i];
                 List<TriggeredEffect> effects = item.GetEffectsWithTrigger<T>();
-                stateManager.item = item;
                 for (int j = 0; j < effects.Count; j++)
                 {
                     TriggeredEffect effect = effects[j];
-                    stateManager.effect = effect;
-                    if (effect.ConditionsAreMet(stateManager))
+                    if (effect.ConditionsAreMet(this))
                     {
-                        effects[j].reaction.Resolve(stateManager);
+                        effects[j].reaction.Resolve(this);
                     }
                 }
             }

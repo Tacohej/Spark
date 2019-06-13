@@ -11,12 +11,12 @@ namespace Spark
         public Trigger trigger;
         public Reaction reaction;
 
-        public bool ConditionsAreMet<T> (T stateManager)
+        public bool ConditionsAreMet<T> (T sparkUnit) where T : SparkUnit
         {
             for (int i = 0; i < conditions.Count; i++)
             {
                 Condition con = conditions[i];
-                if (!con.IsMet(stateManager))
+                if (!con.IsMet(sparkUnit))
                 {
                     return false;
                 }

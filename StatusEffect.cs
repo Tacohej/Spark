@@ -8,7 +8,7 @@ namespace Spark
     public class StatusEffect : ScriptableObject
     {
         [SerializeField]
-        private List<Stat> stats = new List<Stat>();
+        protected List<Stat> stats = new List<Stat>();
 
         public string statusEffectName;
         public bool hasDuration = false;
@@ -20,7 +20,7 @@ namespace Spark
         [System.NonSerialized]
         public int duration;
 
-        public int GetTotalOfStat<T> () where T : StatType
+        public int GetTotalStatFlat<T> () where T : StatType
         {
             var total = 0;
             for (int i = 0; i < stats.Count; i++)
@@ -28,7 +28,21 @@ namespace Spark
                 Stat stat = stats[i];
                 if (stat.type is T)
                 {
-                    total += stat.value * stackAmount;
+                    total += stat.flatValue * stackAmount;
+                }
+            }
+            return total;
+        }
+
+        public int GetTotalStatPercent<T> () where T : StatType
+        {
+            var total = 0;
+            for (int i = 0; i < stats.Count; i++)
+            {
+                Stat stat = stats[i];
+                if (stat.type is T)
+                {
+                    total += stat.percentValue * stackAmount;
                 }
             }
             return total;

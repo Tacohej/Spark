@@ -6,6 +6,8 @@ namespace Spark
 {
     public abstract class Reaction : ScriptableObject
     {
-        public abstract void Resolve<T>(T stateManager) where T: StateManager;
+        public abstract void Resolve<T>(T sparkUnit) where T: SparkUnit;
+
+        public abstract string GetDescription ();
     }
 }

@@ -6,6 +6,6 @@ namespace Spark
 {
     public abstract class Condition : ScriptableObject
     {
-        public abstract bool IsMet<T>(T stateManager);
+        public abstract bool IsMet<T>(T sparkUnit) where T : SparkUnit;
     }
 }
