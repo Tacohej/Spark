@@ -3,5 +3,7 @@ using UnityEngine;
 
 namespace Spark
 {
-  public class StatType : ScriptableObject {}
+  public abstract class StatType : ScriptableObject {
+    public string statName;
+  }
 }

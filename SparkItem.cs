@@ -15,7 +15,7 @@ namespace Spark
         private List<TriggeredEffect> effects = new List<TriggeredEffect>();
 
         [NonSerialized]
-        private string description = "";
+        private string description = string.Empty;
 
         protected List<StatType> GetAllStatTypes ()
         {
@@ -37,6 +37,20 @@ namespace Spark
             return effects.FindAll(effect => effect.trigger is T);
         }
 
+        public int GetTotalStatFlat (StatType statType)
+        {
+            var total = 0;
+            for (int i = 0; i < stats.Count; i++)
+            {
+                Stat stat = stats[i];
+                if (stat.type == statType)
+                {
+                    total += stat.flatValue;
+                }
+            }
+            return total;
+        }
+
         public int GetTotalStatFlat<T> () where T : StatType
         {
             var total = 0;
@@ -48,6 +62,21 @@ namespace Spark
                     total += stat.flatValue;
                 }
             }
+            return total;
+        }
+
+        public int GetTotalStatPercent (StatType statType)
+        {
+            var total = 0;
+            for (int i = 0; i < stats.Count; i++)
+            {
+                Stat stat = stats[i];
+                if (stat.type == statType)
+                {
+                    total += stat.percentValue;
+                }
+            }
+
             return total;
         }
 
@@ -86,38 +115,32 @@ namespace Spark
                 return description;
             }
 
-            var text = "";
-
+            string text = "";
             List<StatType> statTypes = GetAllStatTypes();
 
             foreach(StatType statType in statTypes)
             {
-                MethodInfo flatMethod = typeof(SparkItem).GetMethod("GetTotalStatFlat");
-                MethodInfo percentMethod = typeof(SparkItem).GetMethod("GetTotalStatPercent");
-                MethodInfo flatGeneric = flatMethod.MakeGenericMethod(statType.GetType());
-                MethodInfo percentGeneric = percentMethod.MakeGenericMethod(statType.GetType());
-                var flatValue = (int)flatGeneric.Invoke(this, null);
-                var percentValue = (int)percentGeneric.Invoke(this, null);
+                var flatValue = GetTotalStatFlat(statType);
+                var percentValue = GetTotalStatPercent(statType);
 
                 if (flatValue != 0)
                 {
-                    text += "+ " + flatValue + " " + statType.GetType() + ". ";
+                    text += "+ " + flatValue + " " + statType.statName + ". ";
                 }
 
                 if (percentValue != 0)
                 {
-                    text += "" + percentValue + "% " + statType.GetType() + ". ";
+                    text += "" + percentValue + "% " + statType.statName + ". ";
                 }
             }
 
             foreach(TriggeredEffect effect in effects)
             {
-                text += effect.trigger.GetType().ToString().ToUpper() + ": " + effect.reaction.GetDescription() + ". ";
+                text += effect.trigger.triggerName + ": " + effect.reaction.GetDescription() + ". ";
             }
 
             description = text;
             return text;
-
         }
     }
 }

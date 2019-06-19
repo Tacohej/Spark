@@ -4,5 +4,8 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class Trigger : ScriptableObject {}
+    public abstract class Trigger : ScriptableObject
+    {
+        public string triggerName;
+    }
 }

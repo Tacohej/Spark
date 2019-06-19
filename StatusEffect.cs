@@ -10,12 +10,15 @@ namespace Spark
         [SerializeField]
         protected List<Stat> stats = new List<Stat>();
 
+        [SerializeField]
+        protected List<TriggeredEffect> effects = new List<TriggeredEffect>();
+
         public string statusEffectName;
         public bool hasDuration = false;
         public int maxStackAmount = 1;
         public int maxDuration = 1;
+        public bool doStackStats = true;
 
-        [System.NonSerialized]
         public int stackAmount;
         [System.NonSerialized]
         public int duration;
@@ -28,7 +31,9 @@ namespace Spark
                 Stat stat = stats[i];
                 if (stat.type is T)
                 {
-                    total += stat.flatValue * stackAmount;
+                    total += doStackStats
+                        ? stat.flatValue * stackAmount
+                        : stat.flatValue;
                 }
             }
             return total;
@@ -42,10 +47,29 @@ namespace Spark
                 Stat stat = stats[i];
                 if (stat.type is T)
                 {
-                    total += stat.percentValue * stackAmount;
+                    total += doStackStats
+                        ? stat.percentValue * stackAmount
+                        : stat.percentValue;
                 }
             }
             return total;
+        }
+
+        public bool HasEffectWithTrigger<T>()
+        {
+            for (int i = 0; i < effects.Count; i++)
+            {
+                if (effects[i].trigger is T)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<TriggeredEffect> GetEffectsWithTrigger<T> () where T : Trigger
+        {
+            return effects.FindAll(effect => effect.trigger is T);
         }
     }
 }

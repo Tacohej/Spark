@@ -4,13 +4,32 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class SparkUnit : ScriptableObject
+    public class SparkUnit : ScriptableObject
     {
         [SerializeField]
         protected List <Item> items = new List<Item>();
 
-        [System.NonSerialized]
+        [SerializeField]
         protected List<StatusEffect> statusEffects = new List<StatusEffect>();
+
+        protected TriggeredEffect triggeredEffect;
+        protected Item triggeredItem;
+        protected StatusEffect triggeredStatusEffect;
+
+        public TriggeredEffect TriggeredEffect
+        {
+            get { return triggeredEffect; }
+        }
+
+        public Item TriggeredItem
+        {
+            get { return triggeredItem; }
+        }
+
+        public StatusEffect StatusEffect
+        {
+            get { return triggeredStatusEffect; }
+        }
 
         public void SetItems (List<Item> items)
         {
@@ -65,27 +84,56 @@ namespace Spark
             }
         }
 
+        public virtual void Reset ()
+        {
+            statusEffects = new List<StatusEffect>();
+        }
+
         public List<Item> GetItemsWithTrigger<T>()
         {
             return items.FindAll(item => item.HasEffectWithTrigger<T>());
         }
 
-        public void TriggerEffects<T> () where T : Trigger
+        public List<StatusEffect> GetStatusEffectsWithTrigger<T>()
         {
+            return statusEffects.FindAll(statusEffect => statusEffect.HasEffectWithTrigger<T>());
+        }
+
+        public virtual void TriggerEffects<T> () where T : Trigger
+        {
+
+            List<StatusEffect> triggeredStatusEffects = GetStatusEffectsWithTrigger<T>();
+
+            for (int i = 0; i < triggeredStatusEffects.Count; i++)
+            {
+                triggeredStatusEffect = triggeredStatusEffects[i];
+                List<TriggeredEffect> effects = triggeredStatusEffect.GetEffectsWithTrigger<T>();
+                for (int j = 0; j < effects.Count; j++)
+                {
+                    triggeredEffect = effects[j];
+                    triggeredEffect.reaction.Resolve(this);
+                }
+            }
+
+            triggeredStatusEffect = null;
+
             List<Item> items = GetItemsWithTrigger<T>();
             for (int i = 0; i < items.Count; i++)
             {
-                var item = items[i];
-                List<TriggeredEffect> effects = item.GetEffectsWithTrigger<T>();
+                triggeredItem = items[i];
+                List<TriggeredEffect> effects = triggeredItem.GetEffectsWithTrigger<T>();
                 for (int j = 0; j < effects.Count; j++)
                 {
-                    TriggeredEffect effect = effects[j];
-                    if (effect.ConditionsAreMet(this))
+                    triggeredEffect = effects[j];
+                    if (triggeredEffect.ConditionsAreMet(this))
                     {
-                        effects[j].reaction.Resolve(this);
+                        triggeredEffect.reaction.Resolve(this);
                     }
                 }
             }
+
+            triggeredItem = null;
+
         }
     }
 }
