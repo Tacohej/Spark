@@ -58,18 +58,20 @@ namespace Spark
 
         public void AddStatusEffect (StatusEffect statusEffect)
         {
-            if (statusEffects.Contains(statusEffect))
+            var instance = Instantiate(statusEffect);
+
+            if (statusEffects.Contains(instance))
             {
-                if (statusEffect.maxStackAmount > 1 && statusEffect.stackAmount < statusEffect.maxStackAmount)
+                if (instance.maxStackAmount > 1 && instance.stackAmount < instance.maxStackAmount)
                 {
-                    statusEffect.stackAmount++;
+                    instance.stackAmount++;
                 }
             } else
             {
-                statusEffect.stackAmount = 1;
-                statusEffects.Add(statusEffect);
+                instance.stackAmount = 1;
+                statusEffects.Add(instance);
             }
-            statusEffect.duration = statusEffect.maxDuration;
+            instance.duration = instance.maxDuration;
         }
 
         public void RemoveStatusEffect (string name) 
@@ -101,9 +103,8 @@ namespace Spark
 
         public virtual void TriggerEffects<T> () where T : Trigger
         {
-
+            // TODO: combine
             List<StatusEffect> triggeredStatusEffects = GetStatusEffectsWithTrigger<T>();
-
             for (int i = 0; i < triggeredStatusEffects.Count; i++)
             {
                 triggeredStatusEffect = triggeredStatusEffects[i];
@@ -111,10 +112,12 @@ namespace Spark
                 for (int j = 0; j < effects.Count; j++)
                 {
                     triggeredEffect = effects[j];
-                    triggeredEffect.reaction.Resolve(this);
+                    if (triggeredEffect.ConditionsAreMet(this))
+                    {
+                        triggeredEffect.reaction.Resolve(this);
+                    }
                 }
             }
-
             triggeredStatusEffect = null;
 
             List<Item> items = GetItemsWithTrigger<T>();
@@ -131,9 +134,7 @@ namespace Spark
                     }
                 }
             }
-
             triggeredItem = null;
-
         }
     }
 }
