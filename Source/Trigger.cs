@@ -6,6 +6,6 @@ namespace Spark
 {
     public abstract class Trigger : ScriptableObject
     {
-        public string triggerName;
+        public abstract string GetTriggerName ();
     }
 }

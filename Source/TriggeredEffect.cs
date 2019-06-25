@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class Reaction : ScriptableObject
+    public abstract class TriggeredEffect : ScriptableObject
     {
-        public abstract void Resolve(SparkUnit sparkUnit);
-
+        public Trigger trigger;
+        public abstract void Resolve<T> (T t);
         public abstract string GetDescription ();
     }
 }

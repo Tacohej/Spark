@@ -7,15 +7,19 @@ using UnityEngine;
 namespace Spark
 {
     [CreateAssetMenu(menuName="Spark/Item")]
-    public class SparkItem : ScriptableObject
+    public class Item : ScriptableObject
     {
         [SerializeField]
-        private List<Stat> stats = new List<Stat>();
+        protected List<Stat> stats = new List<Stat>();
         [SerializeField]
-        private List<TriggeredEffect> effects = new List<TriggeredEffect>();
+        protected List<TriggeredEffect> effects = new List<TriggeredEffect>();
 
         [NonSerialized]
         private string description = string.Empty;
+
+        public List<TriggeredEffect> TriggeredEffects {
+            get { return effects; }
+        }
 
         protected List<StatType> GetAllStatTypes ()
         {
@@ -125,18 +129,18 @@ namespace Spark
 
                 if (flatValue != 0)
                 {
-                    text += "+ " + flatValue + " " + statType.statName + ". ";
+                    text += "+ " + flatValue + " " + statType.GetStatTypeName() + ". ";
                 }
 
                 if (percentValue != 0)
                 {
-                    text += "" + percentValue + "% " + statType.statName + ". ";
+                    text += "" + percentValue + "% " + statType.GetStatTypeName() + ". ";
                 }
             }
 
             foreach(TriggeredEffect effect in effects)
             {
-                text += effect.trigger.triggerName + ": " + effect.reaction.GetDescription() + ". ";
+                text += effect.trigger.name + ": " + effect.GetDescription() + ". ";
             }
 
             description = text;
