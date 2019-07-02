@@ -1,10 +1,4 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName="Spark/Custom/StatType/Strength", fileName="StatType_Strength")]
-public class Strength : Spark.StatType
-{
-    public override string GetStatTypeName ()
-    {
-        return "Strength";
-    }
-}
+[CreateAssetMenu(menuName="Spark/Custom/StatTypes/Strength", fileName="StatType_Strength")]
+public class Strength : Spark.StatType {}

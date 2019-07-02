@@ -9,9 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3faa69935c22b844b96a91d78dd43f8e, type: 3}
-  m_Name: PlayerUnit
+  m_Script: {fileID: 11500000, guid: 3088a2a125ffc4849bc4bd28741db3ff, type: 3}
+  m_Name: New Status Effect
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 3a20dcbb4a5537a40956db504fb8a36d, type: 2}
-  - {fileID: 11400000, guid: 4fa1ddf7fc9aa694795d68cf593b39b6, type: 2}
+  stats: []
+  effects: []
+  statusEffectName: 
+  hasDuration: 0
+  scaleStatsWithStacks: 1
+  maxStackAmount: 1
+  maxDuration: 1
+  stackAmount: 1

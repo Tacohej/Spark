@@ -4,11 +4,17 @@ using UnityEngine;
 
 namespace Spark
 {
+    public enum StatValueType
+    {
+        Flat,
+        Percent
+    }
+
     [System.Serializable]
     public class Stat
     {
-        public int flatValue;
-        public int percentValue;
-        public StatType type;
+        public int value;
+        public StatValueType statValueType;
+        public StatType statType;
     }
 }

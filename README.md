@@ -3,7 +3,17 @@
 
 ## TODO
 
+* warning if no stat type on item
+* replace so with type?
+* respect maxStackAmount
+
+
 ### Improvments
 
-* Create Script to generate Triggers and StatTypes
-* Change to base total
+* Add Abilities? 
+* Create TimedStatusEffect and ChargedStatusEffect
+
+
+
+### Create Script to generate Triggers and StatTypes
+* Fix Paths to templates

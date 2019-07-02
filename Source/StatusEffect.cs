@@ -15,61 +15,35 @@ namespace Spark
 
         public string statusEffectName;
         public bool hasDuration = false;
+        public bool scaleStatsWithStacks = true;
         public int maxStackAmount = 1;
         public int maxDuration = 1;
-        public bool doStackStats = true;
+        public int stackAmount = 1;
 
-        public int stackAmount;
         [System.NonSerialized]
         public int duration;
 
-        public int GetTotalStatFlat<T> () where T : StatType
+        public (int, int) GetStatTotal<T> () where T : StatType
         {
-            var total = 0;
-            for (int i = 0; i < stats.Count; i++)
+            var flatTotal = 0;
+            var percentTotal = 0;
+
+            foreach(Stat stat in stats)
             {
-                Stat stat = stats[i];
-                if (stat.type is T)
+                if (stat.statType is T)
                 {
-                    total += doStackStats
-                        ? stat.flatValue * stackAmount
-                        : stat.flatValue;
+                    var value = scaleStatsWithStacks ? stat.value * stackAmount : stat.value;
+                    if (stat.statValueType == StatValueType.Flat)
+                    {
+                        flatTotal += value;
+                    } else
+                    {
+                        percentTotal += value;
+                    }
                 }
             }
-            return total;
-        }
 
-        public int GetTotalStatPercent<T> () where T : StatType
-        {
-            var total = 0;
-            for (int i = 0; i < stats.Count; i++)
-            {
-                Stat stat = stats[i];
-                if (stat.type is T)
-                {
-                    total += doStackStats
-                        ? stat.percentValue * stackAmount
-                        : stat.percentValue;
-                }
-            }
-            return total;
-        }
-
-        public bool HasEffectWithTrigger<T>()
-        {
-            for (int i = 0; i < effects.Count; i++)
-            {
-                if (effects[i].trigger is T)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public List<TriggeredEffect> GetEffectsWithTrigger<T> () where T : Trigger
-        {
-            return effects.FindAll(effect => effect.trigger is T);
+            return (flatTotal, percentTotal);
         }
     }
 }

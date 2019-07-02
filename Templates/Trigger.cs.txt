@@ -1,0 +1,4 @@
+﻿using UnityEngine;
+
+[CreateAssetMenu(menuName="Spark/Custom/Triggers/#SCRIPTNAME#", fileName="Trigger_#SCRIPTNAME#")]
+public class #SCRIPTNAME# : Spark.Trigger {}

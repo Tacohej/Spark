@@ -8,84 +8,13 @@ namespace Spark
     [CreateAssetMenu(menuName="Spark/Unit")]
     public class Unit : ScriptableObject
     {
-        protected delegate void OnTrigger(Unit unit); // temp
         [SerializeField]
         protected List <Item> items = new List<Item>();
+
         protected List<StatusEffect> statusEffects = new List<StatusEffect>();
-        protected Dictionary<System.Type, OnTrigger> effectDict = new Dictionary<System.Type, OnTrigger>();
-
-        public void SetItems (List<Item> items)
-        {
-            this.items = items;
-        }
-
-        public void Reset ()
-        {
-            statusEffects = new List<StatusEffect>();
-        }
-
-        public void RemoveStatusEffect (StatusEffect effect) 
-        {
-            statusEffects.Remove(effect);
-        }
-
-        public void EquipItem (Item item)
-        {
-            items.Add(item);
-            Subscribe(item);
-        }
-
-        public void UnequipItem (Item item)
-        {
-            items.Remove(item);
-            Unsubscribe(item);
-        }
-
-        public void AddStatusEffect (StatusEffect statusEffect)
-        {
-            var instance = Instantiate(statusEffect);
-
-            if (statusEffects.Contains(instance))
-            {
-                if (instance.maxStackAmount > 1 && instance.stackAmount < instance.maxStackAmount)
-                {
-                    instance.stackAmount++;
-                }
-            } else
-            {
-                instance.stackAmount = 1;
-                statusEffects.Add(instance);
-            }
-            instance.duration = instance.maxDuration;
-        }
-
-        public int GetStatTotal<T> (int baseValue) where T : StatType
-        {
-            var flatValue = 0;
-            var percentValue = 0;
-            for (int i = 0; i < items.Count; i++)
-            {
-                flatValue += items[i].GetTotalStatFlat<T>();
-                percentValue += items[i].GetTotalStatPercent<T>();
-            }
-
-            for (int i = 0; i < statusEffects.Count; i++)
-            {
-                flatValue += statusEffects[i].GetTotalStatFlat<T>();
-                percentValue += statusEffects[i].GetTotalStatPercent<T>();
-            }
-
-            return Mathf.RoundToInt((baseValue + flatValue) * (1 + percentValue * 0.01f));
-        }
-
-        public void TriggerEffects<T> () where T : Trigger
-        {
-            OnTrigger effectDelegate;
-            if (effectDict.TryGetValue(typeof(T), out effectDelegate))
-            {
-                effectDelegate.Invoke(this);
-            }
-        }
+        protected Dictionary<Type, OnTriggeredEffect> effectDict = new Dictionary<Type, OnTriggeredEffect>();
+        protected Dictionary<Type, int> baseStats = new Dictionary<Type, int>();
+        protected delegate void OnTriggeredEffect(Unit unit);
 
         void OnEnable ()
         {
@@ -103,11 +32,107 @@ namespace Spark
             }
         }
 
+        public void EquipItem (Item item)
+        {
+            items.Add(item);
+            Subscribe(item);
+        }
+
+        public void UnequipItem (Item item)
+        {
+            items.Remove(item);
+            Unsubscribe(item);
+        }
+
+        public void EquipItems (List<Item> items)
+        {
+            foreach(Item item in items)
+            {
+                Subscribe(item);
+            }
+            this.items = items;
+        }
+
+        public void UnequipAllItems ()
+        {
+            foreach(Item item in items)
+            {
+                Unsubscribe(item);
+            }
+        }
+
+        public void Reset ()
+        {
+            statusEffects = new List<StatusEffect>();
+        }
+
+        public void RemoveStatusEffect (StatusEffect effect) 
+        {
+            statusEffects.Remove(effect);
+        }
+
+        public void AddStatusEffect (StatusEffect statusEffect)
+        {
+            var instance = Instantiate(statusEffect);
+
+            if (statusEffects.Contains(instance))
+            {
+                if (instance.stackAmount < instance.maxStackAmount)
+                {
+                    instance.stackAmount++;
+                }
+            } else
+            {
+                instance.stackAmount = 1;
+                statusEffects.Add(instance);
+            }
+            instance.duration = instance.maxDuration;
+        }
+
+        public void SetBaseStat<T> (int value)
+        {
+            baseStats[typeof(T)] = value;
+        }
+
+        public int GetStatTotal<T> () where T : StatType
+        {
+            var flatValue = 0;
+            var percentValue = 0;
+            var baseValue = 0;
+
+            baseStats.TryGetValue(typeof(T), out baseValue);
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                (int flat, int percent) = items[i].GetStatTotal<T>();
+                flatValue += flat;
+                percentValue += percent;
+            }
+
+            for (int i = 0; i < statusEffects.Count; i++)
+            {
+                (int flat, int percent) = statusEffects[i].GetStatTotal<T>();
+                flatValue += flat;
+                percentValue += percent;
+            }
+
+            return Mathf.RoundToInt((baseValue + flatValue) * (1 + percentValue * 0.01f));
+        }
+
+        public void TriggerEffects<T> () where T : Trigger
+        {
+            OnTriggeredEffect effectDelegate;
+            if (effectDict.TryGetValue(typeof(T), out effectDelegate))
+            {
+                effectDelegate.Invoke(this);
+            }
+        }
+
         protected void Subscribe (Item item)
         {
             foreach (TriggeredEffect effect in item.TriggeredEffects)
             {
-                OnTrigger effectDelegate;
+                OnTriggeredEffect effectDelegate;
                 var triggerType = effect.trigger.GetType();
                 if (effectDict.TryGetValue(triggerType, out effectDelegate))
                 {
@@ -126,6 +151,5 @@ namespace Spark
                 effectDict[effect.trigger.GetType()] -= effect.Resolve;
             }
         }
-
     }
 }

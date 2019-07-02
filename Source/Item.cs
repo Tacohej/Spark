@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +15,8 @@ namespace Spark
         [NonSerialized]
         private string description = string.Empty;
 
-        public List<TriggeredEffect> TriggeredEffects {
+        public List<TriggeredEffect> TriggeredEffects
+        {
             get { return effects; }
         }
 
@@ -27,105 +26,66 @@ namespace Spark
 
             foreach(Stat stat in stats)
             {
-                if (!statTypes.Contains(stat.type))
+                if (!statTypes.Contains(stat.statType))
                 {
-                    statTypes.Add(stat.type);
+                    statTypes.Add(stat.statType);
                 }
             }
 
             return statTypes;
         }
 
-        public List<TriggeredEffect> GetEffectsWithTrigger<T> () where T : Trigger
+        private (int, int) GetStatTotal (StatType statType)
         {
-            return effects.FindAll(effect => effect.trigger is T);
-        }
-
-        public int GetTotalStatFlat (StatType statType)
-        {
-            var total = 0;
+            var flatTotal = 0;
+            var percentTotal = 0;
             for (int i = 0; i < stats.Count; i++)
             {
                 Stat stat = stats[i];
-                if (stat.type == statType)
+                if (stat.statType == statType)
                 {
-                    total += stat.flatValue;
+                    if (stat.statValueType == StatValueType.Flat)
+                    {
+                        flatTotal += stat.value;
+                    } else
+                    {
+                        percentTotal += stat.value;
+                    }
                 }
             }
-            return total;
+            return (flatTotal, percentTotal);
         }
 
-        public int GetTotalStatFlat<T> () where T : StatType
+        public (int, int) GetStatTotal<T> () where T : StatType
         {
-            var total = 0;
+            var flatTotal = 0;
+            var percentTotal = 0;
             for (int i = 0; i < stats.Count; i++)
             {
                 Stat stat = stats[i];
-                if (stat.type is T)
+                if (stat.statType is T)
                 {
-                    total += stat.flatValue;
-                }
-            }
-            return total;
-        }
-
-        public int GetTotalStatPercent (StatType statType)
-        {
-            var total = 0;
-            for (int i = 0; i < stats.Count; i++)
-            {
-                Stat stat = stats[i];
-                if (stat.type == statType)
-                {
-                    total += stat.percentValue;
+                    if (stat.statValueType == StatValueType.Flat)
+                    {
+                        flatTotal += stat.value;
+                    } else
+                    {
+                        percentTotal += stat.value;
+                    }
                 }
             }
 
-            return total;
-        }
-
-        public int GetTotalStatPercent<T> () where T : StatType
-        {
-            // TODO: combine with GetTotalFlat
-            var total = 0;
-            for (int i = 0; i < stats.Count; i++)
-            {
-                Stat stat = stats[i];
-                if (stat.type is T)
-                {
-                    total += stat.percentValue;
-                }
-            }
-
-            return total;
-        }
-
-        public bool HasEffectWithTrigger<T>()
-        {
-            for (int i = 0; i < effects.Count; i++)
-            {
-                if (effects[i].trigger is T)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return (flatTotal, percentTotal);
         }
 
         public virtual string GetDescription ()
         {
-            if (description != "")
-            {
-                return description;
-            }
-
-            string text = "";
+            string text = String.Empty;
             List<StatType> statTypes = GetAllStatTypes();
 
             foreach(StatType statType in statTypes)
             {
-                var flatValue = GetTotalStatFlat(statType);
-                var percentValue = GetTotalStatPercent(statType);
+                (int flatValue, int percentValue) = GetStatTotal(statType);
 
                 if (flatValue != 0)
                 {
