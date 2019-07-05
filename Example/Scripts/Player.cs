@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public int baseStrength = 5;
     public int baseAgility = 7;
 
-    public Unit unit;
+    public Character unit;
 
     void Start ()
     {
@@ -25,12 +25,6 @@ public class Player : MonoBehaviour
 
     void Update ()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            var strenth = unit.GetStatTotal<Strength>();
-            Debug.Log(strenth);
-        }
-
         if (Input.GetMouseButtonDown(1))
         {
             unit.TriggerEffects<OnHit>();

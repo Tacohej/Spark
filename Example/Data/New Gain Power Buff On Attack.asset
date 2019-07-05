@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfb2515658b2a74ca1f136ddc426240, type: 3}
   m_Name: New Gain Power Buff On Attack
   m_EditorClassIdentifier: 
-  trigger: {fileID: 0}
+  trigger: {fileID: 11400000, guid: e67f71519b909a647873fd8f4a5a6531, type: 2}
   powerBuff: {fileID: 0}

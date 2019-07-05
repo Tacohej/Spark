@@ -14,14 +14,9 @@ namespace Spark
         protected List<TriggeredEffect> effects = new List<TriggeredEffect>();
 
         public string statusEffectName;
-        public bool hasDuration = false;
         public bool scaleStatsWithStacks = true;
         public int maxStackAmount = 1;
-        public int maxDuration = 1;
         public int stackAmount = 1;
-
-        [System.NonSerialized]
-        public int duration;
 
         public (int, int) GetStatTotal<T> () where T : StatType
         {

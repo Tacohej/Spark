@@ -5,16 +5,17 @@ using UnityEngine;
 
 namespace Spark
 {
-    [CreateAssetMenu(menuName="Spark/Unit")]
-    public class Unit : ScriptableObject
+    public abstract class Unit<U> : ScriptableObject where U : Unit<U>
     {
         [SerializeField]
         protected List <Item> items = new List<Item>();
 
+        [SerializeField]
         protected List<StatusEffect> statusEffects = new List<StatusEffect>();
+
         protected Dictionary<Type, OnTriggeredEffect> effectDict = new Dictionary<Type, OnTriggeredEffect>();
         protected Dictionary<Type, int> baseStats = new Dictionary<Type, int>();
-        protected delegate void OnTriggeredEffect(Unit unit);
+        protected delegate void OnTriggeredEffect(U unit);
 
         void OnEnable ()
         {
@@ -22,6 +23,7 @@ namespace Spark
             {
                 Subscribe(item);
             }
+            Reset();
         }
 
         void OnDisable ()
@@ -75,7 +77,7 @@ namespace Spark
         {
             var instance = Instantiate(statusEffect);
 
-            if (statusEffects.Contains(instance))
+            if (statusEffects.Contains(instance)) // Todo: Proper check
             {
                 if (instance.stackAmount < instance.maxStackAmount)
                 {
@@ -86,7 +88,6 @@ namespace Spark
                 instance.stackAmount = 1;
                 statusEffects.Add(instance);
             }
-            instance.duration = instance.maxDuration;
         }
 
         public void SetBaseStat<T> (int value)
@@ -124,7 +125,7 @@ namespace Spark
             OnTriggeredEffect effectDelegate;
             if (effectDict.TryGetValue(typeof(T), out effectDelegate))
             {
-                effectDelegate.Invoke(this);
+                effectDelegate.Invoke((U)this);
             }
         }
 
@@ -136,10 +137,10 @@ namespace Spark
                 var triggerType = effect.trigger.GetType();
                 if (effectDict.TryGetValue(triggerType, out effectDelegate))
                 {
-                    effectDelegate += effect.Resolve;
+                    effectDelegate += ((ITriggeredEffect<U>)effect).Resolve;
                 } else
                 {
-                    effectDict[triggerType] = effect.Resolve;
+                    effectDict[triggerType] = ((ITriggeredEffect<U>)effect).Resolve;
                 }
             }
         }
@@ -148,7 +149,7 @@ namespace Spark
         {
             foreach(TriggeredEffect effect in item.TriggeredEffects)
             {
-                effectDict[effect.trigger.GetType()] -= effect.Resolve;
+                effectDict[effect.trigger.GetType()] -= ((ITriggeredEffect<U>)effect).Resolve;
             }
         }
     }

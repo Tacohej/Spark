@@ -4,21 +4,10 @@ using UnityEngine;
 using Spark;
 
 [CreateAssetMenu(menuName="Game/TriggeredEffects/HealOnHit")]
-public class HealOnHit : TriggeredEffect
+public class HealOnHit
 {
     [SerializeField]
     private int healAmount;
     [SerializeField]
     private Player player;
-
-    public override string GetDescription()
-    {
-        return $"Healed { healAmount }";
-    }
-
-    public override void Resolve(Unit unit)
-    {
-        player.Heal();
-        Debug.Log($"Heal for {healAmount}");
-    }
 }

@@ -89,18 +89,18 @@ namespace Spark
 
                 if (flatValue != 0)
                 {
-                    text += "+ " + flatValue + " " + statType.GetStatTypeName() + ". ";
+                    text += $"+ {flatValue} {statType.GetStatTypeName()}. ";
                 }
 
                 if (percentValue != 0)
                 {
-                    text += "" + percentValue + "% " + statType.GetStatTypeName() + ". ";
+                    text += $"{percentValue}% {statType.GetStatTypeName()}.";
                 }
             }
 
             foreach(TriggeredEffect effect in effects)
             {
-                text += effect.trigger.name + ": " + effect.GetDescription() + ". ";
+                text += $"{effect.trigger.name}: {effect.GetDescription()}. ";
             }
 
             description = text;

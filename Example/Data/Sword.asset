@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   stats: []
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: 7f5c0730086949b45b2cc0f8a88f3e19, type: 2}
