@@ -5,7 +5,7 @@ using UnityEngine;
 using Spark;
 
 [CreateAssetMenu(menuName="Game/MyUnit")]
-public class Character : Unit<Character>
+public class SparkUnit : Unit<SparkUnit>
 {
     public void SayHello ()
     {

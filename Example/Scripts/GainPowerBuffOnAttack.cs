@@ -4,7 +4,7 @@ using UnityEngine;
 using Spark;
 
 [CreateAssetMenu(menuName="Game/TriggeredEffects/GainPowerOnAttack")]
-public class GainPowerBuffOnAttack : TriggEffecto<Character>
+public class GainPowerBuffOnAttack : TriggeredEffect<SparkUnit>
 {
     [SerializeField]
     private StatusEffect powerBuff;
@@ -14,7 +14,7 @@ public class GainPowerBuffOnAttack : TriggEffecto<Character>
         return "Gain power buff on attack";
     }
 
-    public override void Resolve(Character unit)
+    public override void Resolve(SparkUnit unit)
     {
         unit.SayHello();
     }

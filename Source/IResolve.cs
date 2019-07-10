@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Spark
 {
-    public interface ITriggeredEffect<T>
+    public interface IResolve<T>
     {
         void Resolve(T unit);
     }

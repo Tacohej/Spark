@@ -5,9 +5,9 @@ using Spark;
 
 namespace Spark
 {
-    public abstract class TriggeredEffect: ScriptableObject
+    public abstract class TriggeredEffect<T> : TriggeredEffectBase, IResolve<T>
     {
-        public Trigger trigger;
-        public abstract string GetDescription ();
+        public abstract override string GetDescription();
+        public abstract void Resolve(T unit);
     }
 }

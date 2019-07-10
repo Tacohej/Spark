@@ -131,25 +131,25 @@ namespace Spark
 
         protected void Subscribe (Item item)
         {
-            foreach (TriggeredEffect effect in item.TriggeredEffects)
+            foreach (TriggeredEffectBase effect in item.TriggeredEffects)
             {
                 OnTriggeredEffect effectDelegate;
                 var triggerType = effect.trigger.GetType();
                 if (effectDict.TryGetValue(triggerType, out effectDelegate))
                 {
-                    effectDelegate += ((ITriggeredEffect<U>)effect).Resolve;
+                    effectDelegate += ((IResolve<U>)effect).Resolve;
                 } else
                 {
-                    effectDict[triggerType] = ((ITriggeredEffect<U>)effect).Resolve;
+                    effectDict[triggerType] = ((IResolve<U>)effect).Resolve;
                 }
             }
         }
 
         protected void Unsubscribe (Item item)
         {
-            foreach(TriggeredEffect effect in item.TriggeredEffects)
+            foreach(TriggeredEffectBase effect in item.TriggeredEffects)
             {
-                effectDict[effect.trigger.GetType()] -= ((ITriggeredEffect<U>)effect).Resolve;
+                effectDict[effect.trigger.GetType()] -= ((IResolve<U>)effect).Resolve;
             }
         }
     }

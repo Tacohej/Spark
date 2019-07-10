@@ -2,8 +2,6 @@
 ⚡️ Simple effect system for Unity
 
 ## TODO
-* rename TriggEffecto and clean up
-* how to handle resolve args
 * warning if no stat type on item
 * replace SO with type?
 * respect maxStackAmount (Proper check when adding other instances of buff)

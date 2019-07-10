@@ -11,7 +11,7 @@ namespace Spark
         protected List<Stat> stats = new List<Stat>();
 
         [SerializeField]
-        protected List<TriggeredEffect> effects = new List<TriggeredEffect>();
+        protected List<TriggeredEffectBase> effects = new List<TriggeredEffectBase>();
 
         public string statusEffectName;
         public bool scaleStatsWithStacks = true;

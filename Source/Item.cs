@@ -10,12 +10,12 @@ namespace Spark
         [SerializeField]
         protected List<Stat> stats = new List<Stat>();
         [SerializeField]
-        protected List<TriggeredEffect> effects = new List<TriggeredEffect>();
+        protected List<TriggeredEffectBase> effects = new List<TriggeredEffectBase>();
 
         [NonSerialized]
         private string description = string.Empty;
 
-        public List<TriggeredEffect> TriggeredEffects
+        public List<TriggeredEffectBase> TriggeredEffects
         {
             get { return effects; }
         }
@@ -98,7 +98,7 @@ namespace Spark
                 }
             }
 
-            foreach(TriggeredEffect effect in effects)
+            foreach(TriggeredEffectBase effect in effects)
             {
                 text += $"{effect.trigger.name}: {effect.GetDescription()}. ";
             }
