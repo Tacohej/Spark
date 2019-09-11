@@ -63,7 +63,7 @@ namespace Spark
             }
         }
 
-        public void Reset ()
+        public virtual void Reset ()
         {
             statusEffects = new List<StatusEffect>();
         }
