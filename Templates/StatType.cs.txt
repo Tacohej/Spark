@@ -1,0 +1,4 @@
+using UnityEngine;
+
+[CreateAssetMenu(menuName="Spark/Custom/StatTypes/#SCRIPTNAME#", fileName="StatType_#SCRIPTNAME#")]
+public class #SCRIPTNAME# : Spark.StatType {}
