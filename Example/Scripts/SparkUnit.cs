@@ -7,8 +7,15 @@ using Spark;
 [CreateAssetMenu(menuName="Game/MyUnit")]
 public class SparkUnit : Unit<SparkUnit>
 {
-    public void SayHello ()
+    public int baseHealth = 100;
+    public int baseHealthRegen = 0;
+    public int baseMovementSpeed = 7;
+
+    public override void OnEnable ()
     {
-        Debug.Log("Say Hello");
+        base.OnEnable();
+        this.SetBaseStat<Health>(baseHealth);
+        this.SetBaseStat<HealthRegen>(baseHealthRegen);
+        this.SetBaseStat<MovementSpeed>(baseMovementSpeed);
     }
 }

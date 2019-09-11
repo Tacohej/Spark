@@ -1,13 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Spark;
 
 public class Player : MonoBehaviour
 {
-    public int baseHealth = 100;
-    public int baseStrength = 5;
-    public int baseAgility = 7;
     public SparkUnit unit;
     public LayerMask layerMask;
 
@@ -21,7 +17,6 @@ public class Player : MonoBehaviour
     public GameObject rightHand;
 
     private Rigidbody rigidBody;
-    private float speed = 7;
     private Vector3 originalLeftPosition;
     private Vector3 originalRightPosition;
     private bool handSwitcher = true;
@@ -30,10 +25,6 @@ public class Player : MonoBehaviour
     void Start ()
     {
         rigidBody = GetComponent<Rigidbody>();
-        unit.SetBaseStat<Strength>(baseStrength);
-        unit.SetBaseStat<Agility>(baseAgility);
-        unit.SetBaseStat<Health>(baseHealth);
-
         originalLeftPosition = leftHand.transform.localPosition;
         originalRightPosition = rightHand.transform.localPosition;
     }
@@ -81,11 +72,12 @@ public class Player : MonoBehaviour
             // bullet
             var instance = Instantiate(bulletPrefab, this.transform.position + this.transform.forward * 2 + offset, this.transform.rotation);
             instance.AddForce(faceDirection * 1200);
+            unit.TriggerEffects<OnAttack>();
         }
     }
 
     void FixedUpdate() 
     {
-        rigidBody.MovePosition(rigidBody.position + moveDirection * speed * Time.fixedDeltaTime);
+        rigidBody.MovePosition(rigidBody.position + moveDirection * unit.GetStatTotal<MovementSpeed>() * Time.fixedDeltaTime);
     }
 }

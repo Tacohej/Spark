@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fd266ff5ad33e548bc1a30994ed2e2a, type: 3}
-  m_Name: StatType_Strength
+  m_Script: {fileID: 11500000, guid: 642f95489c39d9742806c7fa6b9ac80b, type: 3}
+  m_Name: StatType_HealthRegen
   m_EditorClassIdentifier: 

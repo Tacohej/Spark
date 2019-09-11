@@ -17,7 +17,7 @@ namespace Spark
         protected Dictionary<Type, int> baseStats = new Dictionary<Type, int>();
         protected delegate void OnTriggeredEffect(U unit);
 
-        void OnEnable ()
+        public virtual void OnEnable ()
         {
             foreach(Item item in items)
             {
@@ -26,7 +26,7 @@ namespace Spark
             Reset();
         }
 
-        void OnDisable ()
+        public virtual void OnDisable ()
         {
             foreach(Item item in items)
             {
@@ -147,10 +147,7 @@ namespace Spark
 
         protected void Unsubscribe (Item item)
         {
-            foreach(TriggeredEffectBase effect in item.TriggeredEffects)
-            {
-                effectDict[effect.trigger.GetType()] -= ((IResolve<U>)effect).Resolve;
-            }
+            effectDict = new Dictionary<Type, OnTriggeredEffect>();
         }
     }
 }
