@@ -4,10 +4,13 @@ using UnityEngine;
 using Spark;
 
 [CreateAssetMenu(menuName="Game/Item/Sword")]
-public class Sword : CharacterItem
+public class Sword : EquippableCharacterItem
 {
     [SerializeField]
     private StatModifier strengthModifier;
+
+    [SerializeField]
+    private CharacterStatusEffect poision;
 
     [SerializeField]
     private int onKillHealAmount = 5;
@@ -17,13 +20,18 @@ public class Sword : CharacterItem
         cs.self.Heal(onKillHealAmount);
     }
 
-    public override void Equip(Character character)
+    void OnHit (CombatStateWithTarget combatState)
+    {
+        // combatState.target.AddStatusEffect(poision);
+    }
+
+    public override void OnEquip(Character character)
     {
         character.Strength.AddModifier(strengthModifier);
         character.OnKillTrigger.RegisterTriggeredEffect(OnKill);
     }
 
-    public override void Unequip(Character character)
+    public override void OnUnequip(Character character)
     {
         character.Strength.RemoveModifier(strengthModifier);
         character.OnKillTrigger.UnregisterTriggeredEffect(OnKill);

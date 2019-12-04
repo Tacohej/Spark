@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class StatusEffect<T> : ScriptableObject
+    public abstract class StatusEffect : ScriptableObject
     {
-        public abstract void OnGained (T unit);
-        public abstract void OnLost (T unit);
+        // public abstract void OnApply (T unit);
+        // public abstract void OnExpire (T unit);
     }
 }

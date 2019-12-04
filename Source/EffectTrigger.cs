@@ -6,7 +6,7 @@ namespace Spark
     public class EffectTrigger<T>
     {
         public delegate void OnTriggeredEffect(T arg);
-        public OnTriggeredEffect triggeredEffect;
+        public event OnTriggeredEffect triggeredEffect;
 
         public void TriggerEffect (T arg)
         {

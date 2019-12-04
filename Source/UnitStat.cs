@@ -24,6 +24,7 @@ namespace Spark
         private List<StatModifier> statModifiers = new List<StatModifier>();
         private bool dirty = true;
         private int baseValue;
+
         [SerializeField] // TEMP
         private int totalValue;
 
@@ -41,7 +42,6 @@ namespace Spark
                             multiplierValue += statModifier.value;
                     }
                     totalValue = (baseValue + flatValue) * multiplierValue;
-                    Debug.Log(totalValue);
                     dirty = false;
                 }
                 return totalValue;

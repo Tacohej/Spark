@@ -3,21 +3,18 @@
 
 ## TODO
 
-* Skapa en egen typ för event parameter
-typ:
+* status effects.
+hur hantera duration? interface med abstract? som ett eget object
 
-struct EventData {
-  Unit self
-  Unit target
-  Unit[] targets
-}
+duration via ticks
+duration via tid
+
+onTick
+onTime
 
 
-* warning if no stat type on item
-* replace SO with type?
-* respect maxStackAmount (Proper check when adding other instances of buff)
-* fix path in templateScript if use in assets store
-* can't use templateScript in unity 2019?
+buff modifier?
+
 * replace strings
 
 ### Improvments
@@ -26,3 +23,10 @@ struct EventData {
 
 ### Create Script to generate Triggers and StatTypes
 * Fix Paths to templates
+
+
+
+### Items
+* no weapon / starting weapon. regular attack -> gain x mana
+* shives. attack twice. - to mana and damage
+* wand. gain x+ mana

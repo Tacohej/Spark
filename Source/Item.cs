@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class Item<T> : ScriptableObject
+    public abstract class Item : ScriptableObject
     {
-        public abstract void Equip (T unit);
-        public abstract void Unequip (T unit);
+        public string itemName;
     }
 }

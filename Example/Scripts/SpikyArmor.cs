@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikyArmor : CharacterItem
+public class SpikyArmor : EquippableCharacterItem
 {
-    public override void Equip(Character unit)
+    public override void OnEquip(Character unit)
     {
         throw new System.NotImplementedException();
     }
 
-    public override void Unequip(Character unit)
+    public override void OnUnequip(Character unit)
     {
         throw new System.NotImplementedException();
     }
