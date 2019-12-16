@@ -10,10 +10,10 @@ public class Sword : EquippableCharacterItem
     private StatModifier strengthModifier;
 
     [SerializeField]
-    private CharacterStatusEffect poision;
+    private int onKillHealAmount = 5;
 
     [SerializeField]
-    private int onKillHealAmount = 5;
+    private Poision poision;
 
     void OnKill (CombatStateWithTarget cs) 
     {
@@ -22,7 +22,7 @@ public class Sword : EquippableCharacterItem
 
     void OnHit (CombatStateWithTarget combatState)
     {
-        // combatState.target.AddStatusEffect(poision);
+        combatState.target.statusEffectManager.Apply(poision);
     }
 
     public override void OnEquip(Character character)

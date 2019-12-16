@@ -19,6 +19,9 @@ public class Character : MonoBehaviour
     public EffectTrigger<CombatStateWithTarget> OnKillTrigger = new EffectTrigger<CombatStateWithTarget>();
     public EffectTrigger<CombatStateWithTarget> OnHitTrigger = new EffectTrigger<CombatStateWithTarget>();
 
+    public TurnBasedStatusEffectManager statusEffectManager = new TurnBasedStatusEffectManager();
+
+
     void Start ()
     {
         EquipItems();

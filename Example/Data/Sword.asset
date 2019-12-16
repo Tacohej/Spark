@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 757a803b54a11e544b08fb7120f369a5, type: 3}
-  m_Name: New Sword
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  statModifiers: []
-  effects: []
+  itemName: 
   strengthModifier:
     statModType: 0
-    value: 0
+    value: 12
+  poision: {fileID: 0}
+  onKillHealAmount: 0
