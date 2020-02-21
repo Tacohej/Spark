@@ -5,7 +5,6 @@ using Spark;
 
 namespace Spark
 {
-    // TODO: sciptable object or no?
     public abstract class StatusEffectManagerBase
     {
         protected List<StatusEffect> statusEffects = new List<StatusEffect>();

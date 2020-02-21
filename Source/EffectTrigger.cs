@@ -10,7 +10,7 @@ namespace Spark
 
         public void TriggerEffect (T arg)
         {
-            triggeredEffect.Invoke(arg);
+            triggeredEffect?.Invoke(arg);
         }
 
         public void RegisterTriggeredEffect (OnTriggeredEffect effect)

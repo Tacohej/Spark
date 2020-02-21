@@ -10,7 +10,6 @@ namespace Spark
         
         public string statusEffectName;
         public int maxStackAmount;
-
         public int StackAmount {get;}
 
         public void AddStacks (int amount)

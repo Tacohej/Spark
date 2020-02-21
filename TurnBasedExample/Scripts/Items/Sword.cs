@@ -15,23 +15,23 @@ public class Sword : EquippableCharacterItem
     [SerializeField]
     private Poision poision;
 
-    void OnKill (CombatStateWithTarget cs) 
+    void OnKill (EffectDataWithTarget cs)
     {
-        cs.self.Heal(onKillHealAmount);
+        cs.caster.Heal(onKillHealAmount);
     }
 
-    void OnHit (CombatStateWithTarget combatState)
+    void OnHit (EffectDataWithTarget data)
     {
-        combatState.target.statusEffectManager.Apply(poision);
+        data.target.statusEffectManager.Apply(poision);
     }
 
-    public override void OnEquip(Character character)
+    public override void OnEquip(Unit character)
     {
         character.Strength.AddModifier(strengthModifier);
         character.OnKillTrigger.RegisterTriggeredEffect(OnKill);
     }
 
-    public override void OnUnequip(Character character)
+    public override void OnUnequip(Unit character)
     {
         character.Strength.RemoveModifier(strengthModifier);
         character.OnKillTrigger.UnregisterTriggeredEffect(OnKill);

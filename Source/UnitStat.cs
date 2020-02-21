@@ -37,9 +37,13 @@ namespace Spark
                     foreach (StatModifier statModifier in statModifiers)
                     {
                         if (statModifier.statModType == StatModType.Flat)
+                        {
                             flatValue += statModifier.value;
+                        }
                         if (statModifier.statModType == StatModType.Multiplier)
+                        {
                             multiplierValue += statModifier.value;
+                        }
                     }
                     totalValue = (baseValue + flatValue) * multiplierValue;
                     dirty = false;

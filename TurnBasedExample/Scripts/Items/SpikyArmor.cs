@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SpikyArmor : EquippableCharacterItem
 {
-    public override void OnEquip(Character unit)
+    public override void OnEquip(Unit unit)
     {
         throw new System.NotImplementedException();
     }
 
-    public override void OnUnequip(Character unit)
+    public override void OnUnequip(Unit unit)
     {
         throw new System.NotImplementedException();
     }
