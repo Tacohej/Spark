@@ -5,7 +5,7 @@ using Spark;
 
 namespace Spark
 {
-    public abstract class StatusEffectManagerBase
+    public abstract class StatusEffectManagerBase: MonoBehaviour
     {
         protected List<StatusEffect> statusEffects = new List<StatusEffect>();
 

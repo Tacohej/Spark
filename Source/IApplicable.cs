@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spark;
 
-public interface IApplicable<T>
+public interface IApplicable
 {
-    void OnApply (T unit);
-    void OnExpire (T unit);
-    void OnTick (T unit);
+    void OnApply (Unit unit);
+    void OnExpire (Unit unit);
+    void OnTick (Unit unit);
 }

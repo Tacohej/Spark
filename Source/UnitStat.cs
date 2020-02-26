@@ -12,16 +12,23 @@ namespace Spark
     }
 
     [Serializable]
-    public struct StatModifier
+    public struct StatModifierValue
     {
         public StatModType statModType;
         public int value;
     }
 
     [Serializable]
+    public struct StatModifier
+    {
+        public string key;
+        public StatModifierValue statModifierValue;
+    }
+
+    [Serializable]
     public class UnitStat
     {
-        private List<StatModifier> statModifiers = new List<StatModifier>();
+        private List<StatModifierValue> statModifiers = new List<StatModifierValue>();
         private bool dirty = true;
         private int baseValue;
 
@@ -34,7 +41,7 @@ namespace Spark
                 {
                     int flatValue = 0;
                     int multiplierValue = 1;
-                    foreach (StatModifier statModifier in statModifiers)
+                    foreach (StatModifierValue statModifier in statModifiers)
                     {
                         if (statModifier.statModType == StatModType.Flat)
                         {
@@ -57,13 +64,13 @@ namespace Spark
             this.baseValue = baseValue;
         }
 
-        public void AddModifier (StatModifier statModifier)
+        public void AddModifier (StatModifierValue statModifier)
         {
             statModifiers.Add(statModifier);
             dirty = true;
         }
 
-        public void RemoveModifier (StatModifier statModifier)
+        public void RemoveModifier (StatModifierValue statModifier)
         {
             if (statModifiers.Remove(statModifier))
             {

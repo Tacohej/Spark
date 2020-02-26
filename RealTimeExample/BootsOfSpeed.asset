@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 757a803b54a11e544b08fb7120f369a5, type: 3}
-  m_Name: Sword
+  m_Script: {fileID: 11500000, guid: b2ec511cce2ed1243bbf453437774899, type: 3}
+  m_Name: BootsOfSpeed
   m_EditorClassIdentifier: 
-  itemName: 
-  strengthModifier:
-    statModType: 0
-    value: 12
-  poision: {fileID: 0}
-  onKillHealAmount: 0
+  itemName: Boots of Speed
+  equippable: 1
+  statModifiers:
+  - key: MoveSpeed
+    statModifierValue:
+      statModType: 1
+      value: 1

@@ -3,22 +3,28 @@ using System.Collections.Generic;
 
 namespace Spark
 {
-    public class EffectTrigger<T>
+    public class TriggeredEffectModifier
     {
-        public delegate void OnTriggeredEffect(T arg);
-        public event OnTriggeredEffect triggeredEffect;
+        public string key;
+        public Action action;
+    }
 
-        public void TriggerEffect (T arg)
+    public class EffectTrigger
+    {
+        public delegate void OnEffectTriggered(Unit unit);
+        public event OnEffectTriggered triggeredEffect;
+
+        public void TriggerEffect (Unit unit)
         {
-            triggeredEffect?.Invoke(arg);
+            triggeredEffect?.Invoke(unit);
         }
 
-        public void RegisterTriggeredEffect (OnTriggeredEffect effect)
+        public void RegisterTriggeredEffect (OnEffectTriggered effect)
         {
             triggeredEffect += effect;
         }
 
-        public void UnregisterTriggeredEffect (OnTriggeredEffect effect)
+        public void UnregisterTriggeredEffect (OnEffectTriggered effect)
         {
             triggeredEffect -= effect;
         }

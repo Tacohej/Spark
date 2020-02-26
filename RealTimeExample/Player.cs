@@ -5,50 +5,43 @@ using Spark;
 
 public class Player : MonoBehaviour
 {
-    public UnitStat MaxHealth = new UnitStat();
-    public UnitStat MaxMana = new UnitStat();
-    public UnitStat Power = new UnitStat();
-    public UnitStat CastSpeed = new UnitStat();
-    public UnitStat MoveSpeed = new UnitStat();
-    public UnitStat Regen = new UnitStat();
-
-    public _unit1 unit;
-
-    public List<Item> items = new List<Item>();
+    [SerializeField] StatModifierValue maxHealthBase;
+    [SerializeField] StatModifierValue maxManaBase;
+    [SerializeField] StatModifierValue manaRegenBase;
+    [SerializeField] StatModifierValue moveSpeedBase;
+    [SerializeField] StatModifierValue castSpeedBase;
 
     private int healthMissing = 0;
     private int manaMissing = 0;
     private float castCooldown = 0;
-
-    public int Health
-    {
-        get { return MaxHealth.Value - healthMissing; }
-    }
-
-    public int Mana
-    {
-        get { return MaxMana.Value - manaMissing; }
-    }
+    private Unit unit;
 
     void Start ()
     {
-        items.Add(new BootsOfSpeed());
+        unit = GetComponent<Unit>();
 
-        foreach(Item item in items)
-        {
-            var equippableItem = item as IEquippable<Player>;
-            if (equippableItem != null)
-            {
-                equippableItem.OnEquip(this);
-            }
-        }
+        unit.AddModifier("MaxHealth", maxHealthBase);
+        unit.AddModifier("MaxMana", maxManaBase);
+        unit.AddModifier("ManaRegen", manaRegenBase);
+        unit.AddModifier("MoveSpeed", moveSpeedBase);
+        unit.AddModifier("CastSpeed", castSpeedBase);
 
         InvokeRepeating("UpdateEverySecond", 0, 1.0f);
     }
 
+    public int Health
+    {
+        get { return unit.GetStat("MaxHealth") - healthMissing; }
+    }
+
+    public int Mana
+    {
+        get { return unit.GetStat("MaxMana") - manaMissing; }
+    }
+
     void UpdateEverySecond ()
     {
-        manaMissing = Mathf.Max(MaxMana.Value, manaMissing + Regen.Value);
+        manaMissing = Mathf.Max(unit.GetStat("MaxMana"), manaMissing + unit.GetStat("ManaRegen"));
     }
 
     void Update ()
@@ -58,7 +51,7 @@ public class Player : MonoBehaviour
         var horizontal = Input.GetAxisRaw("Horizontal");
         var vertical = Input.GetAxisRaw("Vertical");
         var direction = new Vector3(horizontal, 0, vertical).normalized;
-        transform.Translate(direction * dt * MoveSpeed.Value);
+        transform.Translate(direction * dt * unit.GetStat("MoveSpeed"));
 
         // attacking
         if (castCooldown < 0)
@@ -71,7 +64,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            castCooldown -= dt * CastSpeed.Value;
+            castCooldown -= dt * unit.GetStat("CastSpeed");
         }
     }
 }
