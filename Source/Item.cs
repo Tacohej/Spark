@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class Item : ScriptableObject
+    public abstract class Item
     {
         public string itemName;
     }

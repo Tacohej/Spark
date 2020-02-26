@@ -3,6 +3,14 @@
 
 ## TODO
 
+
+Göra något i stil med
+
+item<T>
+
+
+
+
 * status effects.
 hur hantera duration? interface med abstract? som ett eget object
 
