@@ -192,8 +192,9 @@ GameObject:
   - component: {fileID: 498075778}
   - component: {fileID: 498075780}
   - component: {fileID: 498075779}
+  - component: {fileID: 498075781}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: PlayerPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,6 +258,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498075777}
   m_CullTransparentMesh: 0
+--- !u!114 &498075781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498075777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949418a553a78ec46b606744d3eb620f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1945142931}
 --- !u!1 &927245745
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,10 +866,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthBase:
     statModType: 0
-    value: 0
+    value: 100
   maxManaBase:
     statModType: 0
-    value: 0
+    value: 100
   manaRegenBase:
     statModType: 0
     value: 0
