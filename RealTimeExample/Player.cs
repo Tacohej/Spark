@@ -48,6 +48,12 @@ public class Player : MonoBehaviour
         castCooldown = 5;
         manaMissing += 30;
         Debug.Log("Attack");
+        unit.TriggerEffect("OnAttack");
+        
+
+        // unit.TriggerEffect(new OnAttackTigger())
+    
+        // unit.TriggerEffect<OnAttack>({caster: this})
     }
 
     void Update ()
@@ -75,7 +81,7 @@ public class Player : MonoBehaviour
 
     public void ReciveDamage (int amount, bool quiet = false)
     {
-        healthMissing -= Mathf.Max(0, amount);
+        healthMissing += Mathf.Max(0, amount);
 
         if (!quiet)
         {

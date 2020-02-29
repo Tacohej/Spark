@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
 
 namespace Spark
 {
+    [Serializable]
     public class TriggeredEffectModifier
     {
-        public string key;
+        public string trigger;
         public Action action;
     }
 

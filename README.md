@@ -7,33 +7,35 @@
 * Hantera procent eller floats i unit stats
 * Hook up health and mana bar
 
-### Improvments
-* Add Abilities? 
-* Create TimedStatusEffect and ChargedStatusEffect
 
-### Create Script to generate Triggers and StatTypes
-* Fix Paths to templates
+## Dungeon manager notes
+
+### Characters
+* Snake - Can only use rings
+* Mutant with two heads - can wear two helmets
 
 ### Items
 * no weapon / starting weapon. regular attack -> gain x mana
 * shives. attack twice. - to mana and damage
 * wand. gain x+ mana
 
-// Stamina - Max Health
-public UnitStat Stamina = new UnitStat(100);
+### Stats
 
-// Damage
-// Health regeneration
-// Magic Resitance
-public UnitStat Strength = new UnitStat(10);
+Stamina
+- Max Health
 
-// Crit
-// Evation
-// Speed
-// Armor
-public UnitStat Agility = new UnitStat(10);
+Strength
+- Damage
+- Health regeneration
+- Magic Resitance
 
-// Spell Damage
-// Max Mana
-// Mana reg
-public UnitStat Intelligence = new UnitStat(10);
+Agility
+- Crit
+- Evation
+- Speed
+- Armor
+
+Intelligence
+- Spell Damage
+- Max Mana
+- Mana reg

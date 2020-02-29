@@ -24,6 +24,7 @@ namespace Spark
             {
                 item.Equip(this);
             }
+
             return item.equippable;
         }
 
@@ -34,7 +35,7 @@ namespace Spark
             {
                 effectTrigger.RegisterTriggeredEffect(modifier.Resolve);
             }
-            else
+                else
             {
                 effectTriggers[key] = new EffectTrigger();
                 effectTriggers[key].RegisterTriggeredEffect(modifier.Resolve);
@@ -48,7 +49,7 @@ namespace Spark
             {
                 unitStat.AddModifier(statModifier);
             }
-            else
+                else
             {
                 unitStats[key] = new UnitStat();
                 unitStats[key].AddModifier(statModifier);
@@ -61,6 +62,10 @@ namespace Spark
             if (effectTriggers.TryGetValue(trigger, out effectTrigger))
             {
                 effectTrigger.TriggerEffect(this);
+            }
+                else
+            {
+                Debug.Log("No effects registered with trigger : " + trigger);
             }
         }
 

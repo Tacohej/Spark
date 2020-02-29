@@ -21,7 +21,7 @@ namespace Spark
     [Serializable]
     public struct StatModifier
     {
-        public string key;
+        public string statKey;
         public StatModifierValue statModifierValue;
     }
 

@@ -872,13 +872,13 @@ MonoBehaviour:
     value: 100
   manaRegenBase:
     statModType: 0
-    value: 0
+    value: 5
   moveSpeedBase:
     statModType: 0
     value: 5
   castSpeedBase:
     statModType: 0
-    value: 0
+    value: 5
 --- !u!114 &1945142932
 MonoBehaviour:
   m_ObjectHideFlags: 0

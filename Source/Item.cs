@@ -17,12 +17,12 @@ namespace Spark
         {
             foreach (StatModifier mod in statModifiers)
             {
-                unit.AddModifier(mod.key, mod.statModifierValue);
+                unit.AddModifier(mod.statKey, mod.statModifierValue);
             }
 
             foreach (TriggeredEffectModifier mod in triggeredEffectModifiers)
             {
-                unit.AddTriggeredEffect(mod.key, mod.action);
+                unit.AddTriggeredEffect(mod.trigger, mod.action);
             }
         }
 
