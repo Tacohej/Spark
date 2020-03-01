@@ -22,7 +22,7 @@ namespace Spark
 
             foreach (TriggeredEffectModifier mod in triggeredEffectModifiers)
             {
-                unit.AddTriggeredEffect(mod.trigger, mod.action);
+                unit.AddTriggeredEffect(mod.trigger, mod.reaction);
             }
         }
 

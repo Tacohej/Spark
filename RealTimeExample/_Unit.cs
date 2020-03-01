@@ -233,3 +233,55 @@ public class _unit1 : _unit<_combatState>
 
 // Problem 3: Hur känner jag till items från effect
     // skicka med vid reg i item
+
+// Implementation
+
+
+public class App {
+    public void Start ()
+    {
+        var manager = new Manager();
+        var myItem = new MyItem();
+
+        manager.RunAll(new MyArgs());
+    }
+}
+
+
+public class MyArgs : Args
+{
+
+}
+
+public class MyItem : Item<MyArgs>
+{
+    public override void Run(MyArgs args)
+    {
+        // var myArgs = args as MyArgs;
+    }
+}
+
+// Library
+
+public class Args
+{
+
+}
+
+public abstract class Item<T>
+{
+    public abstract void Run(T args);
+}
+
+public class Manager
+{
+    public List<Item<Args>> items;
+
+    public void RunAll (Args args)
+    {
+        foreach (Item<Args> item in items)
+        {
+            item.Run(args);
+        }
+    }
+}

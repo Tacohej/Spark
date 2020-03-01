@@ -28,7 +28,7 @@ namespace Spark
             return item.equippable;
         }
 
-        public void AddTriggeredEffect (string key, Action modifier)
+        public void AddTriggeredEffect (string key, Reaction<IEffectArgs> modifier)
         {
             EffectTrigger effectTrigger;
             if (effectTriggers.TryGetValue(key, out effectTrigger))
@@ -56,12 +56,12 @@ namespace Spark
             }
         }
 
-        public void TriggerEffect (string trigger)
+        public void TriggerEffect (string trigger, IEffectArgs args = null)
         {
             EffectTrigger effectTrigger;
             if (effectTriggers.TryGetValue(trigger, out effectTrigger))
             {
-                effectTrigger.TriggerEffect(this);
+                effectTrigger.TriggerEffect(this, args);
             }
                 else
             {

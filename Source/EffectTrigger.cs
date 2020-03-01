@@ -6,17 +6,17 @@ namespace Spark
     public class TriggeredEffectModifier
     {
         public string trigger;
-        public Action action;
+        public Reaction<IEffectArgs> reaction;
     }
 
     public class EffectTrigger
     {
-        public delegate void OnEffectTriggered(Unit unit);
-        public event OnEffectTriggered triggeredEffect;
+        public delegate void OnEffectTriggered(Unit unit, IEffectArgs args);
+        public static event OnEffectTriggered triggeredEffect;
 
-        public void TriggerEffect (Unit unit)
+        public void TriggerEffect (Unit unit, IEffectArgs args)
         {
-            triggeredEffect?.Invoke(unit);
+            triggeredEffect?.Invoke(unit, args);
         }
 
         public void RegisterTriggeredEffect (OnEffectTriggered effect)
