@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Spark;
 
-[CreateAssetMenu(menuName="Game/Actions/ReciveDamage")]
+[CreateAssetMenu(menuName="Game/Reactions/ReciveDamage")]
 public class ReciveDamage : Reaction<EffectArgs>
 {
     [SerializeField]

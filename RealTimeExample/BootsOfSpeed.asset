@@ -15,7 +15,9 @@ MonoBehaviour:
   itemName: Boots of Speed
   equippable: 1
   statModifiers:
-  - key: MoveSpeed
+  - statKey: MoveSpeed
     statModifierValue:
       statModType: 1
       value: 1
+  triggeredEffectModifiers:
+  - trigger: OnAttack

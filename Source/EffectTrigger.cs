@@ -2,6 +2,9 @@ using System;
 
 namespace Spark
 {
+
+    public interface IEffectArgs {}
+
     [Serializable]
     public class TriggeredEffectModifier
     {
