@@ -79,13 +79,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ReciveDamage (int amount, bool quiet = false)
+    public void ReciveDamage (int amount)
     {
         healthMissing += Mathf.Max(0, amount);
-
-        if (!quiet)
-        {
-            unit.TriggerEffect("DamageTaken");
-        }
+        unit.TriggerEffect("DamageTaken");
     }
 }

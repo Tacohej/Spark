@@ -3,23 +3,21 @@ using System;
 namespace Spark
 {
 
-    public interface IEffectArgs {}
-
     [Serializable]
     public class TriggeredEffectModifier
     {
         public string trigger;
-        public Reaction<IEffectArgs> reaction;
+        public Reaction reaction;
     }
 
     public class EffectTrigger
     {
-        public delegate void OnEffectTriggered(Unit unit, IEffectArgs args);
+        public delegate void OnEffectTriggered(Unit unit);
         public static event OnEffectTriggered triggeredEffect;
 
-        public void TriggerEffect (Unit unit, IEffectArgs args)
+        public void TriggerEffect (Unit unit)
         {
-            triggeredEffect?.Invoke(unit, args);
+            triggeredEffect?.Invoke(unit);
         }
 
         public void RegisterTriggeredEffect (OnEffectTriggered effect)

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class Reaction<T> : ScriptableObject where T : IEffectArgs
+    public abstract class Reaction : ScriptableObject
     {
-        public abstract void Resolve(Unit unit, T args);
+        public abstract void Resolve(Unit unit);
     }
 }
