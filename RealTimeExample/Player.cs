@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] StatModifierValue moveSpeedBase;
     [SerializeField] StatModifierValue castSpeedBase;
 
+    [SerializeField] LayerMask attackableTargets;
+
     private Unit unit;
     private int healthMissing = 0;
     private int manaMissing = 0;
@@ -43,18 +45,47 @@ public class Player : MonoBehaviour
         manaMissing = Mathf.Max(0, manaMissing - ManaRegen);
     }
 
-    void Attack ()
+    public Unit[] Targets { set; get; }
+
+    
+
+    void MeleeAttack ()
     {
-        castCooldown = 5;
-        manaMissing += 30;
-        Debug.Log("Attack");
-        unit.TriggerEffect("OnAttack");
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            var pos = this.transform.position;
+            var direction = (new Vector3(hit.point.x, pos.y, hit.point.z) - pos).normalized;
+            var impactOrigo = pos + direction * 3;
+            var list = Physics.OverlapSphere(pos, 5, attackableTargets);
+            Debug.DrawLine(pos, impactOrigo, Color.red, 1);
+
+            if (list.Length > 0)
+            {
+                Debug.Log("List" + list);
+                
+            }
+
+            unit.TriggerEffect("OnAttack");
+            castCooldown = 4f;
+        }
+
+        // castCooldown = 5;
+        // manaMissing += 30;
+        // unit.TriggerEffect("OnAttack");
         
 
         // unit.TriggerEffect(new OnAttackTigger())
     
         // unit.TriggerEffect<OnAttack>({caster: this})
     }
+
+    // void OnDrawGizmosSelected () 
+    // {
+    //     Debug.dr
+    //     //Gizmos.DrawLine(this.transform.position, this.transform.position + direction * 5);
+    // }
 
     void Update ()
     {
@@ -70,7 +101,7 @@ public class Player : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                Attack();
+                MeleeAttack();
             }
         }
         else
@@ -81,6 +112,7 @@ public class Player : MonoBehaviour
 
     public void ReciveDamage (int amount)
     {
+        Debug.Log("Amount" + amount);
         healthMissing += Mathf.Max(0, amount);
         unit.TriggerEffect("DamageTaken");
     }

@@ -3,18 +3,13 @@
 
 ## TODO
 
+* Fortsätt implementera enkel attack
+
 * Byta ut strängar mot typer. scriptable objects
 * Hantera procent eller floats i unit stats
 * Hook up health and mana bar
 
 * Hantera status effects
-
-exempel:
-
-With every successful hit, gain 1 stack
-Release
-
-
 
 
 ## Dungeon manager notes

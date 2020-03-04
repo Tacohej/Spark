@@ -14,6 +14,16 @@ namespace Spark
             
         }
 
+        public void Update ()
+        {
+
+        }
+
+        public void Tick (float dt)
+        {
+            
+        }
+
         // public StatusEffect Apply (StatusEffect statusEffect)
         // {
         //     statusEffect.RefreshDuration();

@@ -19,6 +19,7 @@ namespace Spark
     public abstract class StatusEffectModifier : ScriptableObject
     {
         public string statusEffectName;
+        public float tickInterval; // ?
         public bool isDebuff;
 
         public abstract void OnApply (Unit unit, StatusEffect statusEffect);

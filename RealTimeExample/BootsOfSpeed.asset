@@ -17,7 +17,8 @@ MonoBehaviour:
   statModifiers:
   - statKey: MoveSpeed
     statModifierValue:
-      statModType: 1
-      value: 1
+      statModType: 0
+      value: 5
   triggeredEffectModifiers:
   - trigger: OnAttack
+    reaction: {fileID: 11400000, guid: dd00238b3b9d7914698b0ac411c15509, type: 2}

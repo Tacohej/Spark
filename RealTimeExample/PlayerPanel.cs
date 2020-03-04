@@ -13,8 +13,8 @@ public class PlayerPanel : MonoBehaviour
 
     void Start ()
     {
-        healthPanel = GameObject.Find("Health").GetComponent<Image>();
-        manaPanel = GameObject.Find("Mana").GetComponent<Image>();
+        healthPanel = transform.Find("Health").GetComponent<Image>();
+        manaPanel = transform.Find("Mana").GetComponent<Image>();
     }
 
     void Update()
