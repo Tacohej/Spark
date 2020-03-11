@@ -5,7 +5,7 @@ using Spark;
 public class ReciveDamage : Reaction
 {
     [SerializeField]
-    private int damageAmount;
+    private int damageAmount = default;
 
     public override void Resolve(Unit unit)
     {

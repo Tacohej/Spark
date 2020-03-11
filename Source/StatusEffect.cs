@@ -4,62 +4,60 @@ using UnityEngine;
 
 namespace Spark
 {
-    public abstract class StatusEffect : ScriptableObject
+    public class StatusEffect
     {
+        private StatusEffectModifier modifier;
         private int stackAmount;
-        
-        public string statusEffectName;
-        public int maxStackAmount;
+        private float duration;
+        private string statusEffectName;
+
         public int StackAmount {get;}
+        public StatusEffectModifier Modifier {get;}
+        public float Duration {get;}
+
+        public StatusEffect (StatusEffectModifier modifier)
+        {
+            this.modifier = modifier;
+        }
 
         public void AddStacks (int amount)
         {
-            stackAmount = Mathf.Clamp(stackAmount + amount, 1, maxStackAmount);
+            stackAmount = Mathf.Clamp(stackAmount + amount, 1, modifier.maxStackAmount);
         }
 
-        public abstract void RefreshDuration ();
-        public abstract bool HasExpired ();
-    }
-
-    public class RealTimeStatusEffect : StatusEffect
-    {
-        public float maxDurationInSeconds;
-        private float durationLeft;
-
-        public override bool HasExpired()
+        public void AddDuration (float duration)
         {
-            return durationLeft <= 0;
+            this.duration += duration;
         }
 
-        public override void RefreshDuration ()
+        public void ResetDuration (float duration)
         {
-            durationLeft = maxDurationInSeconds;
+            this.duration = duration;
         }
 
-        public void Tick (float dt)
+        public void Update (float time)
         {
-            durationLeft -= dt;
-        }
-    }
-
-    public class TurnBasedStatusEffect : StatusEffect
-    {
-        public int maxDurationInTurns;
-        private int turnsLeft;
-
-        public override bool HasExpired()
-        {
-            return turnsLeft <= 0;
+            duration -= time;
         }
 
-        public override void RefreshDuration ()
+        public bool IsExpired ()
         {
-            turnsLeft = maxDurationInTurns;
+            return duration <= 0;
         }
 
-        public void Tick ()
+        public void OnApply (Unit unit)
         {
-            turnsLeft--;
+            this.modifier.OnApply(this, unit);
+        }
+
+        public void OnExpire (Unit unit)
+        {
+            this.modifier.OnExpire(this, unit);
+        }
+
+        public void OnTick (Unit unit)
+        {
+            this.modifier.OnTick(this, unit);
         }
     }
 }

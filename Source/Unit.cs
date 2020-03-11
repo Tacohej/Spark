@@ -10,7 +10,7 @@ namespace Spark
         public Dictionary<string, UnitStat> unitStats = new Dictionary<string, UnitStat>();
         public Dictionary<string, EffectTrigger> effectTriggers = new Dictionary<string, EffectTrigger>();
 
-        void Start ()
+        void Awake ()
         {
             foreach (Item item in items)
             {
@@ -56,6 +56,19 @@ namespace Spark
             }
         }
 
+        public void EditModifier (StatModifier modifier, int value)
+        {
+            UnitStat unitStat;
+            if (unitStats.TryGetValue(modifier.statKey, out unitStat))
+            {
+                modifier.statModifierValue.value = value;
+            }
+                else
+            {
+                Debug.LogWarning("No modifier registered with key: " + modifier.statKey);
+            }
+        }
+
         public void TriggerEffect (string trigger)
         {
             EffectTrigger effectTrigger;
@@ -65,7 +78,7 @@ namespace Spark
             }
                 else
             {
-                Debug.Log("No effects registered with trigger : " + trigger);
+                Debug.LogWarning("No effects registered with trigger : " + trigger);
             }
         }
 

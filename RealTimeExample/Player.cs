@@ -5,13 +5,19 @@ using Spark;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] StatModifierValue maxHealthBase;
-    [SerializeField] StatModifierValue maxManaBase;
-    [SerializeField] StatModifierValue manaRegenBase;
-    [SerializeField] StatModifierValue moveSpeedBase;
-    [SerializeField] StatModifierValue castSpeedBase;
+    [SerializeField]
+    private StatModifierValue maxHealthBase = default;
+    [SerializeField]
+    private StatModifierValue maxManaBase = default;
+    [SerializeField]
+    private StatModifierValue manaRegenBase = default;
+    [SerializeField]
+    private StatModifierValue moveSpeedBase = default;
+    [SerializeField]
+    private StatModifierValue castSpeedBase = default;
 
-    [SerializeField] LayerMask attackableTargets;
+    [SerializeField]
+    private LayerMask attackableTargets = default;
 
     private Unit unit;
     private int healthMissing = 0;
@@ -27,6 +33,8 @@ public class Player : MonoBehaviour
         unit.AddModifier("ManaRegen", manaRegenBase);
         unit.AddModifier("MoveSpeed", moveSpeedBase);
         unit.AddModifier("CastSpeed", castSpeedBase);
+        
+        unit.TriggerEffect("Start");
 
         InvokeRepeating("UpdateEverySecond", 0, 1.0f);
     }
@@ -47,8 +55,6 @@ public class Player : MonoBehaviour
 
     public Unit[] Targets { set; get; }
 
-    
-
     void MeleeAttack ()
     {
         RaycastHit hit;
@@ -63,29 +69,13 @@ public class Player : MonoBehaviour
 
             if (list.Length > 0)
             {
-                Debug.Log("List" + list);
-                
+
             }
 
             unit.TriggerEffect("OnAttack");
             castCooldown = 4f;
         }
-
-        // castCooldown = 5;
-        // manaMissing += 30;
-        // unit.TriggerEffect("OnAttack");
-        
-
-        // unit.TriggerEffect(new OnAttackTigger())
-    
-        // unit.TriggerEffect<OnAttack>({caster: this})
     }
-
-    // void OnDrawGizmosSelected () 
-    // {
-    //     Debug.dr
-    //     //Gizmos.DrawLine(this.transform.position, this.transform.position + direction * 5);
-    // }
 
     void Update ()
     {

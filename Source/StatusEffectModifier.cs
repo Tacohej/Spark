@@ -1,29 +1,29 @@
 using UnityEngine;
-using System;
+using System.Collections.Generic;
 
 namespace Spark
 {
-    // [Serializable]
-    // public class StatusEffectModifier
-    // {
-    //     public bool stackAddAmount;
-    //     public int maxStacks;
-    //     public bool refreshDurationOnStacks;
-        
-        
-    //     public string statusEffectName;
-    //     public float duration;
-    // }
-
+    public enum DurationModifier
+    {
+        Stack,
+        Reset,
+        None
+    }
 
     public abstract class StatusEffectModifier : ScriptableObject
     {
         public string statusEffectName;
-        public float tickInterval; // ?
-        public bool isDebuff;
+        public float duration;
+        public bool debuff;
+        
+        public DurationModifier durationModifier = DurationModifier.Stack;
+        public int maxStackAmount;
+        public int stackAmount;
+        public bool stackable;
+        public bool loseAllStacksOnExpire;
 
-        public abstract void OnApply (Unit unit, StatusEffect statusEffect);
-        public abstract void OnExpire (Unit unit, StatusEffect statusEffect);
-        public abstract void OnTick (Unit unit, StatusEffect statusEffect);
+        public abstract void OnApply (StatusEffect statusEffect, Unit unit);
+        public abstract void OnExpire (StatusEffect statusEffect, Unit unit);
+        public abstract void OnTick (StatusEffect statusEffect, Unit unit);
     }
 }

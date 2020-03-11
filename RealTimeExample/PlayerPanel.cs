@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerPanel : MonoBehaviour
 {
     [SerializeField]
-    private Player player;
+    private Player player = default;
 
     private Image healthPanel;
     private Image manaPanel;

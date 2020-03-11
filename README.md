@@ -3,14 +3,13 @@
 
 ## TODO
 
-* Fortsätt implementera enkel attack
 
-* Byta ut strängar mot typer. scriptable objects
+* Skapa stöd för typer. Tex GetStat<Stamina> istället för strängar (men kan använda strängar fortfarande)
 * Hantera procent eller floats i unit stats
-* Hook up health and mana bar
 
-* Hantera status effects
-
+* Forsätt implementera status effekter
+* Testa EditModifier (går ändringar igenom med struct?)
+* Bugg: Samtliga triggered effects triggas vid TriggerEffect
 
 ## Dungeon manager notes
 
