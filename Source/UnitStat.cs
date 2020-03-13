@@ -66,6 +66,10 @@ namespace Spark
 
         public void AddModifier (StatModifierValue statModifier)
         {
+            if (statModifiers.Contains(statModifier))
+            {
+                Debug.Log("TODO: FIX ME");
+            }
             statModifiers.Add(statModifier);
             dirty = true;
         }

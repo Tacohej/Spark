@@ -16,5 +16,5 @@ MonoBehaviour:
   equippable: 1
   statModifiers: []
   triggeredEffectModifiers:
-  - trigger: Start
+  - trigger: OnAttack
     reaction: {fileID: 11400000, guid: 0659b084efa14904ab80ac8081960de7, type: 2}

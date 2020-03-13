@@ -56,18 +56,18 @@ namespace Spark
             }
         }
 
-        public void EditModifier (StatModifier modifier, int value)
-        {
-            UnitStat unitStat;
-            if (unitStats.TryGetValue(modifier.statKey, out unitStat))
-            {
-                modifier.statModifierValue.value = value;
-            }
-                else
-            {
-                Debug.LogWarning("No modifier registered with key: " + modifier.statKey);
-            }
-        }
+        // public void EditModifier (StatModifier modifier, int value)
+        // {
+        //     UnitStat unitStat;
+        //     if (unitStats.TryGetValue(modifier.statKey, out unitStat))
+        //     {
+        //         modifier.statModifierValue.value = value;
+        //     }
+        //         else
+        //     {
+        //         Debug.LogWarning("No modifier registered with key: " + modifier.statKey);
+        //     }
+        // }
 
         public void TriggerEffect (string trigger)
         {

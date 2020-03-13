@@ -9,7 +9,7 @@ public class ApplyStatusEffectToSelf : Reaction
 
     public override void Resolve(Unit unit)
     {
-        var targetManager = unit.GetComponent<StatusEffectManager>();
-        targetManager.ApplyModifier(modifier);
+        var manager = unit.GetComponent<StatusEffectManager>();
+        manager.ApplyModifier(modifier);
     }
 }

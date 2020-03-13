@@ -11,9 +11,9 @@ namespace Spark
         private float duration;
         private string statusEffectName;
 
-        public int StackAmount {get;}
-        public StatusEffectModifier Modifier {get;}
-        public float Duration {get;}
+        public int StackAmount { get { return stackAmount; } }
+        public float Duration { get { return duration; } }
+        public float MaxDuration { get {return modifier.duration; } }
 
         public StatusEffect (StatusEffectModifier modifier)
         {

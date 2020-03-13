@@ -3,13 +3,12 @@
 
 ## TODO
 
+* ui status effects
+* lösa problem med add / remove / edit stats
+
 
 * Skapa stöd för typer. Tex GetStat<Stamina> istället för strängar (men kan använda strängar fortfarande)
 * Hantera procent eller floats i unit stats
-
-* Forsätt implementera status effekter
-* Testa EditModifier (går ändringar igenom med struct?)
-* Bugg: Samtliga triggered effects triggas vid TriggerEffect
 
 ## Dungeon manager notes
 

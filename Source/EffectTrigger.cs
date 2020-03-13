@@ -13,7 +13,7 @@ namespace Spark
     public class EffectTrigger
     {
         public delegate void OnEffectTriggered(Unit unit);
-        public static event OnEffectTriggered triggeredEffect;
+        public event OnEffectTriggered triggeredEffect;
 
         public void TriggerEffect (Unit unit)
         {

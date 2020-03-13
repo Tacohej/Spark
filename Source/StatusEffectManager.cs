@@ -11,6 +11,10 @@ namespace Spark
         private Dictionary<string, StatusEffect> statusEffects = new Dictionary<string, StatusEffect>();
         private Unit unit;
 
+        public Dictionary<string, StatusEffect> StatusEffects {
+            get { return statusEffects; }
+        }
+
         void Start ()
         {
             unit = GetComponent<Unit>();
@@ -19,27 +23,25 @@ namespace Spark
         public void ApplyModifier (StatusEffectModifier modifier)
         {
             StatusEffect statusEffect;
-            if (statusEffects.TryGetValue(modifier.statusEffectName, out statusEffect))
-            {
-                if (modifier.stackable)
-                {
-                    statusEffect.AddStacks(modifier.stackAmount);
-                }
-
-                if (modifier.durationModifier == DurationModifier.Stack)
-                {
-                    statusEffect.AddDuration(modifier.duration);
-                }
-
-                else if (modifier.durationModifier == DurationModifier.Reset)
-                {
-                    statusEffect.ResetDuration(modifier.duration);
-                }
-            }
-            else
+            if (!statusEffects.TryGetValue(modifier.statusEffectName, out statusEffect))
             {
                 statusEffect = new StatusEffect(modifier);
                 statusEffects[modifier.statusEffectName] = statusEffect;
+            }
+
+            if (modifier.stackable)
+            {
+                statusEffect.AddStacks(modifier.stackAmount);
+            }
+
+            if (modifier.durationModifier == DurationModifier.Stack)
+            {
+                statusEffect.AddDuration(modifier.duration);
+            }
+
+            else if (modifier.durationModifier == DurationModifier.Reset)
+            {
+                statusEffect.ResetDuration(modifier.duration);
             }
 
             statusEffect.OnApply(unit);
@@ -55,7 +57,7 @@ namespace Spark
                 if (statusEffect.IsExpired())
                 {
                     // TODO: handle stacks
-                    // TODO: remove status effect when no stacks
+                    statusEffects.Remove(se.Key);
                     statusEffect.OnExpire(unit);
                 }
             }
@@ -63,7 +65,7 @@ namespace Spark
 
         public void Tick (float dt)
         {
-
+            // TODO:
         }
 
     }

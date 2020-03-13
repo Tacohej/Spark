@@ -20,5 +20,5 @@ MonoBehaviour:
       statModType: 0
       value: 5
   triggeredEffectModifiers:
-  - trigger: OnAttack
+  - trigger: Start
     reaction: {fileID: 11400000, guid: dd00238b3b9d7914698b0ac411c15509, type: 2}

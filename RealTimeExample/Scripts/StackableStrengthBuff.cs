@@ -6,10 +6,15 @@ using Spark;
 [CreateAssetMenu(menuName="Game/StatusEffectModifiers/StackableStrengthBuff")]
 public class StackableStrengthBuff : StatusEffectModifier
 {
+    [SerializeField]
+    private StatModifier strengthModifier = default;
+
     public override void OnApply(StatusEffect statusEffect, Unit unit)
     {
         Debug.Log(statusEffect.StackAmount);
         Debug.Log(statusEffect.Duration);
+        unit.GetComponent<Player>().ReciveDamage(statusEffect.StackAmount);
+        // unit.AddModifier(strengthModifier.statKey, strengthModifier.statModifierValue.value * statusEffect.StackAmount);
     }
 
     public override void OnExpire(StatusEffect statusEffect, Unit unit)
