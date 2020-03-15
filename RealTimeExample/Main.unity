@@ -1448,18 +1448,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthBase:
+    statKey: MaxHealth
     statModType: 0
     value: 100
   maxManaBase:
+    statKey: MaxMana
     statModType: 0
     value: 100
   manaRegenBase:
+    statKey: ManaRegen
     statModType: 0
     value: 5
   moveSpeedBase:
+    statKey: MoveSpeed
     statModType: 0
     value: 5
   castSpeedBase:
+    statKey: CastSpeed
     statModType: 0
     value: 5
   attackableTargets:
@@ -1477,9 +1482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fe45610f8c98a4984562a6fbc334a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 52f6cf8d9dc90464ab6a8f590f17cdaa, type: 2}
-  - {fileID: 11400000, guid: 070210f59424e2e458c1f76a38d1cbde, type: 2}
+  items: []
 --- !u!114 &1945142933
 MonoBehaviour:
   m_ObjectHideFlags: 0

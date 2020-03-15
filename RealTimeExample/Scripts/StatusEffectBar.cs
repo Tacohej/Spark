@@ -7,18 +7,11 @@ using Spark;
 public class StatusEffectBar : MonoBehaviour
 {
     [SerializeField]
-    private GameObject statusEffectPrefab;
+    private GameObject statusEffectPrefab = default;
     [SerializeField]
-    private Player player;
+    private Player player = default;
 
-    private StatusEffectManager manager;
     private List<GameObject> statusEffectInstances = new List<GameObject>();
-
-    void Start ()
-    {
-        manager = player.GetComponent<StatusEffectManager>();
-    }
-
     void Update ()
     {
         foreach(GameObject go in statusEffectInstances)
@@ -28,11 +21,11 @@ public class StatusEffectBar : MonoBehaviour
 
         statusEffectInstances = new List<GameObject>();
 
-        foreach (StatusEffect effect in manager.StatusEffects.Values)
+        foreach (RealTimeStatusEffect effect in player.statusEffects.Values)
         {
             var instance = Instantiate(statusEffectPrefab);
             var image = instance.GetComponent<Image>();
-            image.fillAmount = (effect.Duration % effect.MaxDuration) / effect.MaxDuration;
+            image.fillAmount = (effect.StackDuration % effect.StartDuration) / effect.StartDuration;
             instance.transform.Find("Stacks").GetComponent<Text>().text = effect.StackAmount.ToString();
             instance.transform.SetParent(this.transform);
             statusEffectInstances.Add(instance);

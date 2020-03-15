@@ -3,50 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spark;
 
-public class Player : MonoBehaviour
+public class Player : RealTimeUnit
 {
-    [SerializeField]
-    private StatModifierValue maxHealthBase = default;
-    [SerializeField]
-    private StatModifierValue maxManaBase = default;
-    [SerializeField]
-    private StatModifierValue manaRegenBase = default;
-    [SerializeField]
-    private StatModifierValue moveSpeedBase = default;
-    [SerializeField]
-    private StatModifierValue castSpeedBase = default;
+    [SerializeField] StatModifier maxHealthBase = default;
+    [SerializeField] StatModifier maxManaBase = default;
+    [SerializeField] StatModifier manaRegenBase = default;
+    [SerializeField] StatModifier moveSpeedBase = default;
+    [SerializeField] StatModifier castSpeedBase = default;
 
-    [SerializeField]
-    private LayerMask attackableTargets = default;
+    [SerializeField] BootsOfSpeed bootsOfSpeed;
 
-    private Unit unit;
+    [SerializeField] LayerMask attackableTargets = default;
+
+    private float castCooldown = 0;
     private int healthMissing = 0;
     private int manaMissing = 0;
-    private float castCooldown = 0;
 
     void Start ()
     {
-        unit = GetComponent<Unit>();
+        AddModifier(maxHealthBase);
+        AddModifier(maxManaBase);
+        AddModifier(manaRegenBase);
+        AddModifier(moveSpeedBase);
+        AddModifier(castSpeedBase);
 
-        unit.AddModifier("MaxHealth", maxHealthBase);
-        unit.AddModifier("MaxMana", maxManaBase);
-        unit.AddModifier("ManaRegen", manaRegenBase);
-        unit.AddModifier("MoveSpeed", moveSpeedBase);
-        unit.AddModifier("CastSpeed", castSpeedBase);
-        
-        unit.TriggerEffect("Start");
+        EquipItem(bootsOfSpeed);
 
         InvokeRepeating("UpdateEverySecond", 0, 1.0f);
     }
 
     public int Health { get { return MaxHealth - healthMissing; } }
     public int Mana { get { return MaxMana - manaMissing; } }
-    public int MaxHealth { get { return unit.GetStat("MaxHealth") * 10; } }
-    public int MaxMana { get { return unit.GetStat("MaxMana") * 10; } }
+    public int MaxHealth { get { return GetStat("MaxHealth") * 10; } }
+    public int MaxMana { get { return GetStat("MaxMana") * 10; } }
 
-    private int ManaRegen { get { return unit.GetStat("ManaRegen"); } }
-    private int MoveSpeed { get { return unit.GetStat("MoveSpeed"); } }
-    private int CastSpeed { get { return unit.GetStat("CastSpeed"); } }
+    private int ManaRegen { get { return GetStat("ManaRegen"); } }
+    private int MoveSpeed { get { return GetStat("MoveSpeed"); } }
+    private int CastSpeed { get { return GetStat("CastSpeed"); } }
 
     void UpdateEverySecond ()
     {
@@ -72,13 +65,15 @@ public class Player : MonoBehaviour
 
             }
 
-            unit.TriggerEffect("OnAttack");
+            TriggerEffect("OnAttack");
             castCooldown = 4f;
         }
     }
 
     void Update ()
     {
+        UpdateStatusEffects();
+
         var dt = Time.deltaTime;
         var horizontal = Input.GetAxisRaw("Horizontal");
         var vertical = Input.GetAxisRaw("Vertical");
@@ -104,6 +99,6 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Amount" + amount);
         healthMissing += Mathf.Max(0, amount);
-        unit.TriggerEffect("DamageTaken");
+        TriggerEffect("DamageTaken");
     }
 }

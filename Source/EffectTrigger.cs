@@ -2,30 +2,21 @@ using System;
 
 namespace Spark
 {
-
-    [Serializable]
-    public class TriggeredEffectModifier
-    {
-        public string trigger;
-        public Reaction reaction;
-    }
-
     public class EffectTrigger
     {
-        public delegate void OnEffectTriggered(Unit unit);
-        public event OnEffectTriggered triggeredEffect;
+        public event Action triggeredEffect;
 
-        public void TriggerEffect (Unit unit)
+        public void TriggerEffect ()
         {
-            triggeredEffect?.Invoke(unit);
+            triggeredEffect?.Invoke();
         }
 
-        public void RegisterTriggeredEffect (OnEffectTriggered effect)
+        public void RegisterTriggeredEffect (Action effect)
         {
             triggeredEffect += effect;
         }
 
-        public void UnregisterTriggeredEffect (OnEffectTriggered effect)
+        public void UnregisterTriggeredEffect (Action effect)
         {
             triggeredEffect -= effect;
         }

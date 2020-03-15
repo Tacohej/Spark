@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47a5639e792697488850b86b0887b89, type: 3}
-  m_Name: Recive5Damage
+  m_Script: {fileID: 11500000, guid: 5c101ca4a15d6fa4d99f444f9e0914bf, type: 3}
+  m_Name: BootsOfSpeed
   m_EditorClassIdentifier: 
-  damageAmount: 30
+  speedModifier:
+    statKey: 
+    statModType: 0
+    value: 0

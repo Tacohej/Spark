@@ -10,49 +10,39 @@ namespace Spark
         public Dictionary<string, UnitStat> unitStats = new Dictionary<string, UnitStat>();
         public Dictionary<string, EffectTrigger> effectTriggers = new Dictionary<string, EffectTrigger>();
 
-        void Awake ()
+        public void EquipItem(Item item)
         {
-            foreach (Item item in items)
-            {
-                EquipItem(item);
-            }
+            item.OnEquip(this);
+            items.Add(item);
         }
 
-        public bool EquipItem(Item item)
-        {
-            if (item.equippable)
-            {
-                item.Equip(this);
-            }
-
-            return item.equippable;
-        }
-
-        public void AddTriggeredEffect (string key, Reaction modifier)
+        public void AddTriggeredEffect (string key, Action reaction)
         {
             EffectTrigger effectTrigger;
             if (effectTriggers.TryGetValue(key, out effectTrigger))
             {
-                effectTrigger.RegisterTriggeredEffect(modifier.Resolve);
+                effectTrigger.RegisterTriggeredEffect(reaction);
             }
                 else
             {
                 effectTriggers[key] = new EffectTrigger();
-                effectTriggers[key].RegisterTriggeredEffect(modifier.Resolve);
+                effectTriggers[key].RegisterTriggeredEffect(reaction);
             }
         }
 
-        public void AddModifier (string key, StatModifierValue statModifier)
+        public void AddModifier (StatModifier modifier)
         {
             UnitStat unitStat;
+            var key = modifier.statKey;
+
             if (unitStats.TryGetValue(key, out unitStat))
             {
-                unitStat.AddModifier(statModifier);
+                unitStat.AddModifier(modifier);
             }
                 else
             {
                 unitStats[key] = new UnitStat();
-                unitStats[key].AddModifier(statModifier);
+                unitStats[key].AddModifier(modifier);
             }
         }
 
@@ -74,7 +64,7 @@ namespace Spark
             EffectTrigger effectTrigger;
             if (effectTriggers.TryGetValue(trigger, out effectTrigger))
             {
-                effectTrigger.TriggerEffect(this);
+                effectTrigger.TriggerEffect();
             }
                 else
             {
