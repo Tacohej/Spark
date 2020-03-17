@@ -1,48 +1,45 @@
 using UnityEngine;
+using System;
 using Spark;
 
 [CreateAssetMenu(fileName="BootsOfSpeed", menuName="Game/Item/BootsOfSpeed")]
-public class BootsOfSpeed : Item
+public class BootsOfSpeed : UnitItem
 {
     [SerializeField]
     private StatModifier speedModifier = default;
 
-    [SerializeField]
-    private int damage = 30;
-
-    private RealTimeStatusEffect moveBuff;
+    private Action<Unit> moveBuffAction;
+    private RealTimeStatusEffect<Unit> moveBuff;
 
     void OnEnable ()
     {
-        moveBuff = new RealTimeStatusEffect("MoveBuff")
+        moveBuff = new RealTimeStatusEffect<Unit>("MoveBuff")
             .WithDuration(3)
             .OnApply((Unit unit) =>
             {
-                Debug.Log("OnApply");
+                unit.agility.AddModifier(speedModifier);
             })
             .OnTick((Unit unit) =>
             {
-                Debug.Log("OnTick");
+                unit.agility.UpdateModifier(speedModifier, 10);
             })
-            .OnExpire((Unit Unit) =>
+            .OnExpire((Unit unit) =>
             {
+                unit.agility.RemoveModifier(speedModifier);
                 Debug.Log("OnExpire");
             });
+
     }
 
-    public override void OnEquip(Unit unit)
+    public override void Equip(Unit unit)
     {
-        var player = unit as Player;
-        player.AddModifier(speedModifier);
-
-        player.AddTriggeredEffect("OnAttack", () =>
-        {
-            player.ApplyStatusEffect(moveBuff);
+        moveBuffAction = unit.onAttackEffect.RegisterEffect(target => {
+            unit.statusEffectManager.ApplyStatusEffect(moveBuff);
         });
     }
 
-    public override void OnUnequip(Unit unit)
+    public override void Unequip(Unit unit)
     {
-        return;
+        unit.onAttackEffect.UnregisterEffect(moveBuffAction);
     }
 }

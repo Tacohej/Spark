@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Spark
 {
-    public class RealTimeStatusEffect : RealTimeUnit
+    public class RealTimeStatusEffect<T>
     {
-        private event Action<Unit> applyCallback;
-        private event Action<Unit> tickCallback;
-        private event Action<Unit> expireCallback;
+        private event Action<T> applyCallback;
+        private event Action<T> tickCallback;
+        private event Action<T> expireCallback;
 
         private string _name;
         private float duration = 5;
@@ -36,25 +36,25 @@ namespace Spark
             tickTimer = 0;
         }
 
-        public RealTimeStatusEffect OnApply (Action<Unit> callback)
+        public RealTimeStatusEffect<T> OnApply (Action<T> callback)
         {
             applyCallback += callback;
             return this;
         }
 
-        public RealTimeStatusEffect OnTick (Action<Unit> callback)
+        public RealTimeStatusEffect<T> OnTick (Action<T> callback)
         {
             tickCallback += callback;
             return this;
         }
 
-        public RealTimeStatusEffect OnExpire (Action<Unit> callback)
+        public RealTimeStatusEffect<T> OnExpire (Action<T> callback)
         {
             expireCallback += callback;
             return this;
         }
 
-        public RealTimeStatusEffect WithDuration (float duration)
+        public RealTimeStatusEffect<T> WithDuration (float duration)
         {
             this.duration = duration;
             startingDuration = this.duration;
@@ -72,17 +72,17 @@ namespace Spark
             stackAmount -= 1;
         }
 
-        public void Apply (Unit unit)
+        public void Apply (T unit)
         {
             applyCallback?.Invoke(unit);
         }
 
-        public void Tick (Unit unit)
+        public void Tick (T unit)
         {
             tickCallback?.Invoke(unit);
         }
 
-        public void Expire (Unit unit)
+        public void Expire (T unit)
         {
             expireCallback?.Invoke(unit);
         }

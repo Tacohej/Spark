@@ -9,9 +9,10 @@ public class StatusEffectBar : MonoBehaviour
     [SerializeField]
     private GameObject statusEffectPrefab = default;
     [SerializeField]
-    private Player player = default;
+    private Unit unit = default;
 
     private List<GameObject> statusEffectInstances = new List<GameObject>();
+
     void Update ()
     {
         foreach(GameObject go in statusEffectInstances)
@@ -21,7 +22,7 @@ public class StatusEffectBar : MonoBehaviour
 
         statusEffectInstances = new List<GameObject>();
 
-        foreach (RealTimeStatusEffect effect in player.statusEffects.Values)
+        foreach (RealTimeStatusEffect<Unit> effect in unit.statusEffectManager.statusEffects.Values)
         {
             var instance = Instantiate(statusEffectPrefab);
             var image = instance.GetComponent<Image>();

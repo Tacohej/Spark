@@ -4,22 +4,28 @@ using System.Collections.Generic;
 
 namespace Spark
 {
-    public class RealTimeUnit : Unit
+    public class RealTimeManager<T>
     {
-        public readonly Dictionary<string, RealTimeStatusEffect> statusEffects = new Dictionary<string, RealTimeStatusEffect>();
+        private T unit;
+        public readonly Dictionary<string, RealTimeStatusEffect<T>> statusEffects = new Dictionary<string, RealTimeStatusEffect<T>>();
 
-        public void ApplyStatusEffect(RealTimeStatusEffect statusEffect)
+        public RealTimeManager (T unit)
         {
-            RealTimeStatusEffect currentStatusEffect;
+            this.unit = unit;
+        }
+
+        public void ApplyStatusEffect(RealTimeStatusEffect<T> statusEffect)
+        {
+            RealTimeStatusEffect<T> currentStatusEffect;
             if (statusEffects.TryGetValue(statusEffect.Name, out currentStatusEffect))
             {
                 currentStatusEffect.AddStack();
-                statusEffect.Apply(this);
+                statusEffect.Apply(unit);
             }
             else
             {
                 statusEffect.Reset();
-                statusEffect.Apply(this);
+                statusEffect.Apply(unit);
                 statusEffects[statusEffect.Name] = statusEffect;
             }
             
@@ -29,18 +35,18 @@ namespace Spark
         {
             List<string> removeList = new List<string>();
 
-            foreach (KeyValuePair<string, RealTimeStatusEffect> effect in statusEffects)
+            foreach (KeyValuePair<string, RealTimeStatusEffect<T>> effect in statusEffects)
             {
                 var statusEffect = effect.Value;
 
                 if (statusEffect.UpdateDuration(Time.deltaTime))
                 {
                     removeList.Add(effect.Key);
-                    statusEffect.Expire(this);
+                    statusEffect.Expire(unit);
                 } 
                 else if (statusEffect.UpdateTick(Time.deltaTime))
                 {
-                    statusEffect.Tick(this);
+                    statusEffect.Tick(unit);
                 }
             }
 

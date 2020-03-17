@@ -3,11 +3,11 @@
 
 ## TODO
 
-* ui status effects
 * lösa problem med add / remove / edit stats
+* unequip
+* onchange på unitStat och unitVar
+* StatusEffect modifier (som håller ref till statusEffect)
 
-
-* Skapa stöd för typer. Tex GetStat<Stamina> istället för strängar (men kan använda strängar fortfarande)
 * Hantera procent eller floats i unit stats
 
 ## Dungeon manager notes

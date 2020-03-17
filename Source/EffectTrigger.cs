@@ -1,24 +1,49 @@
 using System;
+using UnityEngine;
 
 namespace Spark
 {
-    public class EffectTrigger
+
+    public class TriggeredEffect
     {
-        public event Action triggeredEffect;
+        public event Action effect;
 
-        public void TriggerEffect ()
+        public void Trigger ()
         {
-            triggeredEffect?.Invoke();
+            effect?.Invoke();
         }
 
-        public void RegisterTriggeredEffect (Action effect)
+        public Action RegisterEffect (Action effect)
         {
-            triggeredEffect += effect;
+            this.effect += effect;
+            return effect;
         }
 
-        public void UnregisterTriggeredEffect (Action effect)
+        public void UnregisterEffect (Action effect)
         {
-            triggeredEffect -= effect;
+            this.effect -= effect;
+        }
+
+    }
+
+    public class TriggeredEffect<T>
+    {
+        public event Action<T> effect;
+
+        public void Trigger (T arg)
+        {
+            effect?.Invoke(arg);
+        }
+
+        public Action<T> RegisterEffect (Action<T> effect)
+        {
+            this.effect += effect;
+            return effect;
+        }
+
+        public void UnregisterEffect (Action<T> effect)
+        {
+            this.effect -= effect;
         }
     }
 }

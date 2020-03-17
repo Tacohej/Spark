@@ -12,19 +12,31 @@ namespace Spark
     }
 
     [Serializable]
-    public struct StatModifier // replace with class instead?
+    public class StatModifier
     {
-        public string statKey;
         public StatModType statModType;
-        public int value;
+        
+        [SerializeField]
+        private int initialValue;
+
+        [System.NonSerialized]
+        private int bonusValue = 0;
+
+        public void AddValue (int value)
+        {
+            bonusValue += value;
+        }
+
+        public int Value { get {return initialValue + bonusValue; }}
     }
 
     [Serializable]
     public class UnitStat
     {
+        [SerializeField]
+        private int baseValue = 0;
         private List<StatModifier> statModifiers = new List<StatModifier>();
         private bool dirty = true;
-        private int baseValue;
         private int totalValue;
 
         public int Value {
@@ -37,11 +49,11 @@ namespace Spark
                     {
                         if (statModifier.statModType == StatModType.Flat)
                         {
-                            flatValue += statModifier.value;
+                            flatValue += statModifier.Value;
                         }
                         if (statModifier.statModType == StatModType.Multiplier)
                         {
-                            multiplierValue += statModifier.value;
+                            multiplierValue += statModifier.Value;
                         }
                     }
                     totalValue = (int)((baseValue + flatValue) * (1 + multiplierValue * 0.001f));
@@ -51,19 +63,21 @@ namespace Spark
             }
         }
 
-        public UnitStat (int baseValue = 0)
-        {
-            this.baseValue = baseValue;
-        }
-
         public void AddModifier (StatModifier statModifier)
         {
-            if (statModifiers.Contains(statModifier))
-            {
-                // Debug.Log("TODO: FIX ME");
-            }
             statModifiers.Add(statModifier);
             dirty = true;
+        }
+
+        public void UpdateModifier (StatModifier statModifier, int value)
+        {
+            statModifier.AddValue(value);
+            dirty = true;
+        }
+
+        public void OnChange (Action<int> action)
+        {
+            // TODO
         }
 
         public void RemoveModifier (StatModifier statModifier)

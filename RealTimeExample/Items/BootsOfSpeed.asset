@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: BootsOfSpeed
   m_EditorClassIdentifier: 
   speedModifier:
-    statKey: 
     statModType: 0
-    value: 0
+    value: 50
