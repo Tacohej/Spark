@@ -19,8 +19,7 @@ namespace Spark
             RealTimeStatusEffect<T> currentStatusEffect;
             if (statusEffects.TryGetValue(statusEffect.Name, out currentStatusEffect))
             {
-                currentStatusEffect.AddStack();
-                statusEffect.Apply(unit);
+                currentStatusEffect.AddStack(unit);
             }
             else
             {
@@ -39,7 +38,7 @@ namespace Spark
             {
                 var statusEffect = effect.Value;
 
-                if (statusEffect.UpdateDuration(Time.deltaTime))
+                if (statusEffect.UpdateDuration(Time.deltaTime, unit))
                 {
                     removeList.Add(effect.Key);
                     statusEffect.Expire(unit);

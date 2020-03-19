@@ -12,8 +12,10 @@ public class Unit : MonoBehaviour
     public UnitStat agility;
     public UnitStat intelligence;
 
-    public UnitVar health;
-    public UnitVar mana;
+    private FormulaFloat crit;
+
+    public ResourceInt health;
+    public ResourceInt mana;
 
     public Unit target;
 
@@ -24,8 +26,8 @@ public class Unit : MonoBehaviour
 
     void Awake ()
     {
-        health = new UnitVar(stamina);
-        mana = new UnitVar(intelligence);
+        health = new ResourceInt(stamina);
+        mana = new ResourceInt(intelligence);
 
         statusEffectManager = new RealTimeManager<Unit>(this);
 
@@ -33,6 +35,9 @@ public class Unit : MonoBehaviour
         {
             item.Equip(this);
         }
+
+        crit = new FormulaFloat(agility)
+            .Multiply(0.001f);
 
     }
 
@@ -42,8 +47,20 @@ public class Unit : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            foreach (UnitItem item in items)
+            {
+                item.Unequip(this);
+            }
+            // onAttackEffect.Trigger(target);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
             onAttackEffect.Trigger(target);
         }
+
+        
+        Debug.Log(crit.Value);
     }
 
 }

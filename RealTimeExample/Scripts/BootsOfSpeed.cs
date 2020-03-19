@@ -14,19 +14,17 @@ public class BootsOfSpeed : UnitItem
     void OnEnable ()
     {
         moveBuff = new RealTimeStatusEffect<Unit>("MoveBuff")
-            .WithDuration(3)
+            .Duration(3)
             .OnApply((Unit unit) =>
             {
                 unit.agility.AddModifier(speedModifier);
             })
-            .OnTick((Unit unit) =>
-            {
-                unit.agility.UpdateModifier(speedModifier, 10);
+            .OnStackAmountChange((Unit unit, int stackAmount) => {
+                speedModifier.Multiplier = stackAmount;
             })
             .OnExpire((Unit unit) =>
             {
                 unit.agility.RemoveModifier(speedModifier);
-                Debug.Log("OnExpire");
             });
 
     }

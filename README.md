@@ -3,12 +3,14 @@
 
 ## TODO
 
-* lösa problem med add / remove / edit stats
+* lösa problem med add / remove / edit stats speciellt med buffar
 * unequip
-* onchange på unitStat och unitVar
+* onchange på unitStat, resource och formula
 * StatusEffect modifier (som håller ref till statusEffect)
 
-* Hantera procent eller floats i unit stats
+
+* Bygga ut buffar. Infinite som default, lägga till Expire Type, duration type, consume
+
 
 ## Dungeon manager notes
 

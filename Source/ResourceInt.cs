@@ -1,14 +1,15 @@
 
 namespace Spark
 {
-    public class UnitVar 
+    public class ResourceInt
     {
         private UnitStat unitStat;
         private int current = 0;
+        private float multiplier = 1;
 
         public int Value
         {
-            get { return unitStat.Value + current; }
+            get { return (int)(unitStat.Value * multiplier) + current; }
             set { current = value; }
         }
 
@@ -17,9 +18,14 @@ namespace Spark
             get { return unitStat.Value; }
         }
 
-        public UnitVar (UnitStat unitStat)
+        public ResourceInt (UnitStat unitStat)
         {
             this.unitStat = unitStat;
+        }
+
+        public void SetMultiplier (float multiplier)
+        {
+            this.multiplier = multiplier;
         }
 
     }

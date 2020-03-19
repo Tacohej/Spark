@@ -16,18 +16,22 @@ namespace Spark
     {
         public StatModType statModType;
         
-        [SerializeField]
-        private int initialValue;
+        public int initialValue;
 
         [System.NonSerialized]
-        private int bonusValue = 0;
+        private int multiplier = 1;
 
-        public void AddValue (int value)
+        public Action OnChange;
+
+        public int Multiplier
         {
-            bonusValue += value;
+            set { OnChange?.Invoke(); multiplier = value; }
+            get { return multiplier; }
         }
 
-        public int Value { get {return initialValue + bonusValue; }}
+        public int Value {
+            get { return initialValue * multiplier; }
+        }
     }
 
     [Serializable]
@@ -63,16 +67,19 @@ namespace Spark
             }
         }
 
-        public void AddModifier (StatModifier statModifier)
+        private void SetDirty ()
         {
-            statModifiers.Add(statModifier);
             dirty = true;
         }
 
-        public void UpdateModifier (StatModifier statModifier, int value)
+        public void AddModifier (StatModifier statModifier)
         {
-            statModifier.AddValue(value);
-            dirty = true;
+            if (!statModifiers.Contains(statModifier))
+            {
+                statModifiers.Add(statModifier);
+                statModifier.OnChange += SetDirty;
+                dirty = true;
+            }
         }
 
         public void OnChange (Action<int> action)
@@ -84,6 +91,7 @@ namespace Spark
         {
             if (statModifiers.Remove(statModifier))
             {
+                statModifier.OnChange -= SetDirty;
                 dirty = true;
             }
         }
