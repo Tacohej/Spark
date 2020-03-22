@@ -3,30 +3,23 @@ namespace Spark
 {
     public class ResourceInt
     {
-        private UnitStat unitStat;
+        private FormulaInt formula;
         private int current = 0;
-        private float multiplier = 1;
+
+        public ResourceInt (FormulaInt formula)
+        {
+            this.formula = formula;
+        }
 
         public int Value
         {
-            get { return (int)(unitStat.Value * multiplier) + current; }
+            get { return (int)formula.Value + current; }
             set { current = value; }
         }
 
         public int Max
         {
-            get { return unitStat.Value; }
+            get { return formula.Value; }
         }
-
-        public ResourceInt (UnitStat unitStat)
-        {
-            this.unitStat = unitStat;
-        }
-
-        public void SetMultiplier (float multiplier)
-        {
-            this.multiplier = multiplier;
-        }
-
     }
 }

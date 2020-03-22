@@ -5,7 +5,8 @@ namespace Spark
 {
     public class FormulaInt
     {
-        private int value;
+        private int initValue;
+        private UnitStat initStat;
 
         private List<FormulaInt> formulaAdds = new List<FormulaInt>();
         private List<UnitStat> statAdds = new List<UnitStat>();
@@ -17,7 +18,12 @@ namespace Spark
 
         public FormulaInt (int value = 0)
         {
-            this.value = value;
+            this.initValue = value;
+        }
+        
+        public FormulaInt  (UnitStat stat)
+        {
+            this.initStat = stat;
         }
 
         public FormulaInt Add (FormulaInt formula)
@@ -120,6 +126,7 @@ namespace Spark
         {
             get
             {
+                var value = initStat != null ? initStat.Value : initValue;
                 return value * CalcMul(formulaMuls) * CalcMul(statMuls) * CalcMul(muls)
                     + (CalcAdd(formulaAdds) + CalcAdd(statAdds) + CalcAdd(adds));
             }

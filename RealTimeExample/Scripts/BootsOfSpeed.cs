@@ -19,7 +19,7 @@ public class BootsOfSpeed : UnitItem
             {
                 unit.agility.AddModifier(speedModifier);
             })
-            .OnStackAmountChange((Unit unit, int stackAmount) => {
+            .OnStackChange((Unit unit, int stackAmount) => {
                 speedModifier.Multiplier = stackAmount;
             })
             .OnExpire((Unit unit) =>

@@ -3,39 +3,21 @@ using UnityEngine;
 
 namespace Spark
 {
-    public class RealTimeStatusEffect<T>
+    public class RealTimeStatusEffect<T> : StatusEffect<T>
     {
-        private event Action<T> applyCallback;
-        private event Action<T> tickCallback;
-        private event Action<T> expireCallback;
-        private event Action<T, int> stackAmountChangeCallback;
-
-        private string _name;
         private float duration = 5;
         private float tickInterval = 1;
         private float startingDuration;
 
-        private int stackAmount = 1;
         private float timeGone = 0;
         private float tickTimer = 0;
-        private int maxStackAmount = 5;
 
-        public string Name { get { return _name; } }
-        public int StackAmount { get { return stackAmount; } }
         public float StackDuration { get { return  duration - timeGone; } }
         public float StartDuration { get { return startingDuration; } }
 
-        public RealTimeStatusEffect (string name)
+        public RealTimeStatusEffect (string name) : base(name)
         {
             startingDuration = duration;
-            _name = name;
-        }
-
-        public void Reset ()
-        {
-            stackAmount = 1;
-            timeGone = 0;
-            tickTimer = 0;
         }
 
         public RealTimeStatusEffect<T> OnApply (Action<T> callback)
@@ -56,7 +38,7 @@ namespace Spark
             return this;
         }
 
-        public RealTimeStatusEffect<T> OnStackAmountChange (Action<T, int> callback)
+        public RealTimeStatusEffect<T> OnStackChange (Action<T, int> callback)
         {
             stackAmountChangeCallback += callback;
             return this;
@@ -69,48 +51,16 @@ namespace Spark
             return this;
         }
 
-        public RealTimeStatusEffect<T> MaxStackAmount (int amount)
+        public override void Reset ()
         {
-            this.maxStackAmount = amount;
-            return this; 
+            base.Reset();
+            timeGone = 0;
+            tickTimer = 0;
         }
 
-        public void AddStack (T unit)
+        public override void AddStack (T unit)
         {
-            if (stackAmount < maxStackAmount)
-            {
-                stackAmount += 1;
-                stackAmountChangeCallback?.Invoke(unit, stackAmount);
-            }
-            timeGone = 0; // temp hard coded
-        }
-
-        public void RemoveStack (T unit)
-        {
-            stackAmount -= 1;
-            if (stackAmount > 0)
-            {
-                stackAmountChangeCallback?.Invoke(unit, stackAmount);
-            }
-        }
-
-        public void Apply (T unit)
-        {
-            applyCallback?.Invoke(unit);
-        }
-
-        public void Tick (T unit)
-        {
-            tickCallback?.Invoke(unit);
-        }
-
-        public void Expire (T unit)
-        {
-            expireCallback?.Invoke(unit);
-        }
-
-        public void ResetTimeGone ()
-        {
+            base.AddStack(unit);
             timeGone = 0;
         }
 
@@ -139,6 +89,5 @@ namespace Spark
 
             return stackAmount <= 0;
         }
-
     }
 }

@@ -1,36 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
 namespace Spark
 {
-    public class RealTimeManager<T>
+    public class RealTimeManager<T> : StatusEffectManager<T, RealTimeStatusEffect<T>>
     {
-        private T unit;
-        public readonly Dictionary<string, RealTimeStatusEffect<T>> statusEffects = new Dictionary<string, RealTimeStatusEffect<T>>();
+        public RealTimeManager (T unit) : base(unit) {}
 
-        public RealTimeManager (T unit)
-        {
-            this.unit = unit;
-        }
-
-        public void ApplyStatusEffect(RealTimeStatusEffect<T> statusEffect)
-        {
-            RealTimeStatusEffect<T> currentStatusEffect;
-            if (statusEffects.TryGetValue(statusEffect.Name, out currentStatusEffect))
-            {
-                currentStatusEffect.AddStack(unit);
-            }
-            else
-            {
-                statusEffect.Reset();
-                statusEffect.Apply(unit);
-                statusEffects[statusEffect.Name] = statusEffect;
-            }
-            
-        }
-
-        public void UpdateStatusEffects ()
+        public override void Update ()
         {
             List<string> removeList = new List<string>();
 
