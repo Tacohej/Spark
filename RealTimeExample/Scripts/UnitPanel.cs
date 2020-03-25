@@ -3,38 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitPanel : MonoBehaviour
+namespace RealTimeExample
 {
-    [SerializeField]
-    private Unit unit = default;
-
-    private Image healthImage;
-    private Image manaImage;
-    private Text statText;
-
-    void Start ()
+    public class UnitPanel : MonoBehaviour
     {
-        healthImage = transform.Find("Health").GetComponent<Image>();
-        manaImage = transform.Find("Mana").GetComponent<Image>();
-        statText = transform.Find("Stats").GetComponent<Text>();
-    }
+        [SerializeField]
+        private Unit unit = default;
 
-    void Update()
-    {
-        var healthFill = unit.health.Value / (float) unit.health.Max;
-        var manaFill = unit.mana.Value / (float) unit.mana.Max;
+        private Image healthImage;
+        private Image manaImage;
+        private Text statText;
 
-        healthImage.fillAmount = healthFill;
-        manaImage.fillAmount = manaFill;
+        void Start ()
+        {
+            healthImage = transform.Find("Health").GetComponent<Image>();
+            manaImage = transform.Find("Mana").GetComponent<Image>();
+            statText = transform.Find("Stats").GetComponent<Text>();
+        }
 
-        string[] stats = {
-            $"Stamina: {unit.stamina.Value}",
-            $"Strength: {unit.strength.Value}",
-            $"Agility: {unit.agility.Value}",
-            $"Intelligence: {unit.intelligence.Value}"
-        };
+        void Update()
+        {
+            var healthFill = unit.health.Value / (float) unit.health.Max;
+            var manaFill = unit.mana.Value / (float) unit.mana.Max;
 
-        statText.text = string.Join("\n", stats);
+            healthImage.fillAmount = healthFill;
+            manaImage.fillAmount = manaFill;
 
+            string[] stats = {
+                $"Stamina: {unit.stamina.Value}",
+                $"Strength: {unit.strength.Value}",
+                $"Agility: {unit.agility.Value}",
+                $"Intelligence: {unit.intelligence.Value}"
+            };
+
+            statText.text = string.Join("\n", stats);
+
+        }
     }
 }
