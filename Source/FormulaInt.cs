@@ -16,7 +16,7 @@ namespace Spark
         private List<UnitStat> statMuls = new List<UnitStat>();
         private List<int> muls = new List<int>();
 
-        public FormulaInt (int value = 0)
+        public FormulaInt (int value)
         {
             this.initValue = value;
         }
