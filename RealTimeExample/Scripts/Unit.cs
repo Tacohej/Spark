@@ -14,9 +14,9 @@ namespace RealTimeExample
         public UnitStat agility;
         public UnitStat intelligence;
 
-        public FormulaFloat critChance;
-        public FormulaFloat moveSpeed;
-        public FormulaFloat manaRegen;
+        public Formula<float> critChance;
+        public Formula<float> moveSpeed;
+        public Formula<float> manaRegen;
 
         public ResourceInt health;
         public ResourceInt mana;
@@ -30,17 +30,20 @@ namespace RealTimeExample
 
         void Awake ()
         {
-            health = new ResourceInt(new FormulaInt(stamina).Multiply(10));
-            mana = new ResourceInt(new FormulaInt(intelligence).Multiply(10));
+            // health = new ResourceInt(new FormulaInt(stamina).Multiply(10));
+            // mana = new ResourceInt(new FormulaInt(intelligence).Multiply(10));
 
-            critChance = new FormulaFloat(agility)
-                .Multiply(0.01f);
+            critChance = new Formula<float>(() => {
+                return agility.Value * 0.01f;
+            });
 
-            moveSpeed = new FormulaFloat(agility)
-                .Multiply(0.1f);
+            moveSpeed = new Formula<float>(() => {
+                return agility.Value * 0.1f;
+            });
 
-            manaRegen = new FormulaFloat(intelligence)
-                .Multiply(0.1f);
+            manaRegen = new Formula<float>(() => {
+                return intelligence.Value * 0.1f;
+            });
 
             statusEffectManager = new RealTimeManager<Unit>(this);
 

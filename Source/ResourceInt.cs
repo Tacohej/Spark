@@ -5,18 +5,16 @@ namespace Spark
     [System.Serializable]
     public class ResourceInt
     {
-        private FormulaInt formula;
+        private Formula<int> formula;
         [SerializeField]
         private int current = 0;
 
-        public ResourceInt (FormulaInt formula, bool startAtMax = true)
+        public ResourceInt (Formula<int> formula, bool startAtMax = true)
         {
             this.formula = formula;
             if (startAtMax)
             {
                 current = formula.Value;
-                
-                Debug.Log(current);
             }
         }
 
@@ -28,7 +26,7 @@ namespace Spark
 
         public float Fraction
         {
-            get { return (float)Value / (float)Max; }
+            get { return (float) Value / (float) Max; }
         }
 
         public int Max
